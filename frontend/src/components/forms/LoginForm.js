@@ -1,32 +1,56 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react"
+import { Button } from "@chakra-ui/button";
+import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
+import { Box, Flex, Heading, Link, Stack, Text } from "@chakra-ui/layout";
+import { Link as RouterLink } from "react-router-dom";
+import React from "react";
+import { ReactComponent as WhiteArrow } from "../../assets/whiteArrow.svg";
+import { useForm } from "react-hook-form";
+import useUser from "../../redux/hooks/useUser";
+import { confirm, password, signIn, username } from "../../utils/strings";
+import FormInput from "../FormInput";
+import CustomButton from "../CustomButton";
 
 const LoginForm = () => {
+	const hook = useUser();
+
+	const {
+		register,
+		handleSubmit,
+		control,
+		formState: { errors },
+	} = useForm();
 
 	return (
-		<Flex width="full" align="center" justifyContent="center">
-			<Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
-				<Box textAlign="center">
-					<Heading>Welcome, login to continue</Heading>
-				</Box>
-				<Box my={4} textAlign="center">
-					<form>
-						<FormControl isRequired>
-							<FormLabel>Username</FormLabel>
-							<Input type="text" placeholder="test@test.com" />
-						</FormControl>
-						<FormControl mt={6} isRequired>
-							<FormLabel>Password</FormLabel>
-							<Input type="password" placeholder="*******" />
-						</FormControl>
-						<Button width="full" mt={4} type="submit">
-							Sign In
-						</Button>
-					</form>
-				</Box>
-			</Box>
-    	</Flex>
-	)
+		<Flex justify="center" alignItems="center" h="70vh" direction="column">
+			<Heading as="h1" letterSpacing="5px" mb="55px">
+				{"Knjigovodstvo"}
+			</Heading>
+			<form onSubmit={handleSubmit(hook.signin)}>
+				<Stack w="530px" spacing={3} alignItems="center">
+					<InputGroup>
+						<FormInput
+							control={control}
+							type="text"
+							inputName="Korisničko ime"
+							regName="username"
+							error={errors.username}
+						/>
+					</InputGroup>
+					<InputGroup>
+						<FormInput
+							control={control}
+							type="password"
+							inputName="Lozinka"
+							regName="password"
+							error={errors.password}
+						/>
+					</InputGroup>
+					<CustomButton type="submit" />
+								
+				</Stack>
+			</form>
+		</Flex>
+	);
+};
 
-}
-
-export default LoginForm
+export default LoginForm;

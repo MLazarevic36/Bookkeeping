@@ -1,17 +1,17 @@
-import LoginPage from "../pages/LoginPage"
-import HomePage from "../pages/HomePage"
+import LoginPage from "../pages/LoginPage";
+import HomePage from "../pages/HomePage";
 
 const routes = [
 	{
-        path: "/login",
-        component: LoginPage,
-        isPrivate: false,
-    },
+		path: "/login",
+		component: LoginPage,
+		isPrivate: false,
+	},
 	{
-        path: "/",
-        component: HomePage,
-        isPrivate: true,
-    },
-]
+		path: "/",
+		component: HomePage,
+		isPrivate: false,
+	},
+];
 
-export default routes
+export default routes;

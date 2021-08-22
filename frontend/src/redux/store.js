@@ -1,30 +1,30 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import { userReducer } from './reducers/userReducer';
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { userReducer } from "./reducers/userReducer";
 
 const persistConfig = {
-	key: 'root',
+	key: "root",
 	version: 1,
 	storage,
-}
+};
 
 const reducer = combineReducers({
 	user: userReducer,
-})
+});
 
 const rootReducer = (state, action) => {
-	if (action.type === 'USER/LOGOUT') {
-	  state = undefined
-	  localStorage.removeItem("persist:root")
+	if (action.type === "USER/LOGOUT") {
+		state = undefined;
+		localStorage.removeItem("persist:root");
 	}
-	return reducer(state, action)
-  }
+	return reducer(state, action);
+};
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-	reducer: persistedReducer
-})
+	reducer: persistedReducer,
+});
 
-export default store
+export default store;
