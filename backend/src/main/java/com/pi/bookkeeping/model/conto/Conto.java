@@ -1,4 +1,4 @@
-package com.pi.bookkeeping.model;
+package com.pi.bookkeeping.model.conto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +27,13 @@ public class Conto {
 
     @Column(name = "status", nullable = false)
     private String status;
+
+    @Column(name = "type", nullable = false)
+    private String type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="conto_plan_id")
+    private ContoPlan contoPlan;
 
 
 }

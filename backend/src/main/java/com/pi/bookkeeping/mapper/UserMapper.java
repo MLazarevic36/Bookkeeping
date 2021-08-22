@@ -1,2 +1,4 @@
-package com.pi.bookkeeping.mapper;public class UserMapper {
+package com.pi.bookkeeping.mapper;
+
+public class UserMapper {
 }

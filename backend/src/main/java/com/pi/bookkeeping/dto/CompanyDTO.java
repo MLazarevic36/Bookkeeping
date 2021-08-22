@@ -1,2 +1,4 @@
-package com.pi.bookkeeping.dto;public class CompanyDTO {
+package com.pi.bookkeeping.dto;
+
+public class CompanyDTO {
 }

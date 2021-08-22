@@ -1,4 +1,4 @@
-package com.pi.bookkeeping.model;
+package com.pi.bookkeeping.model.conto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
