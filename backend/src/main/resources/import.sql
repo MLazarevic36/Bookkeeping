@@ -1,4 +1,19 @@
-INSERT INTO users VALUES (1, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'admin');
+
+
+INSERT INTO companies VALUES (1, 'Data Drill')
+
+INSERT INTO employees VALUES (1, 'Radnicka 15', 'Aleksa', '02029292962531', 'Milanovic', 1)
+INSERT INTO employees VALUES (2, 'Tolstojeva 2', 'Stefan', '1872592376290', 'Zoric', 1)
+INSERT INTO employees VALUES (3, 'Balzakova 36', 'Pavle', '3606464929752', 'Mikic', 1)
+
+INSERT INTO users VALUES (1, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'admin', null);
+INSERT INTO users VALUES (2, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'user1', 1);
+INSERT INTO users VALUES (3, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'user2', 2);
+INSERT INTO users VALUES (4, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'user3', 3);
+
+INSERT INTO conto_plans VALUES (1, 1)
+
+INSERT INTO contos VALUES (1, 'UPISANI A NEUPLAĆENI KAPITAL', '00', 'ACTIVE', 'SYNTHETIC', 1)
 
 INSERT INTO conto_classes VALUES (1, '0', 'UPISANI A NEUPLAĆENI KAPITAL I STALNA IMOVINA')
 INSERT INTO conto_classes VALUES (2, '1', 'ZALIHE I STALNA SREDSTVA NAMENJENA PRODAJI')

@@ -1,5 +1,6 @@
 package com.pi.bookkeeping.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,30 +12,35 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "workers")
-public class Worker implements Serializable {
+@Table(name = "employees")
+public class Employee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "firstName", nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "lastName", nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @Column(name = "jmbg", nullable = false)
-    private int jmbg;
+    private String jmbg;
 
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "userId", nullable = false)
-    private int userId;
+    @OneToOne(mappedBy = "employee")
+    private User user;
 
-    @Column(name = "companyId", nullable = false)
-    private int companyId;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="company_id")
+    @JsonIgnore
+    private Company company;
+
+
+
 
 
 

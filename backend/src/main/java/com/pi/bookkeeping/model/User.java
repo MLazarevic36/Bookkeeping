@@ -24,5 +24,8 @@ public class User implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private Employee employee;
 
 }

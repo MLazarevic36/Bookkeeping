@@ -1,5 +1,6 @@
 package com.pi.bookkeeping.dto.conto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pi.bookkeeping.model.conto.ContoGroup;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,5 +18,6 @@ public class ContoSubGroupDTO {
     private Long id;
     private String subGroupLabel;
     private String subGroupName;
+    @JsonIgnore
     private ContoGroupDTO contoGroup;
 }

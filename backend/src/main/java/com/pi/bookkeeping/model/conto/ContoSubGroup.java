@@ -1,5 +1,8 @@
 package com.pi.bookkeeping.model.conto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pi.bookkeeping.model.conto.ContoGroup;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +19,6 @@ public class ContoSubGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "conto_sub_group_id", unique = true, nullable = false)
     private Long id;
 
     @Column(name = "sub_group_label", nullable = false)
@@ -25,8 +27,9 @@ public class ContoSubGroup {
     @Column(name = "sub_group_name", nullable = false)
     private String subGroupName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="conto_group_id")
+    @JsonIgnore
     private ContoGroup contoGroup;
 
 }

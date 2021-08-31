@@ -1,7 +1,7 @@
 package com.pi.bookkeeping.model.conto;
 
 import com.pi.bookkeeping.model.Company;
-import com.pi.bookkeeping.model.conto.ContoGroup;
+import com.pi.bookkeeping.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,11 +18,10 @@ public class ContoPlan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "conto_plan_id", unique = true, nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="company_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
     private Company company;
 
     @OneToMany(mappedBy = "contoPlan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

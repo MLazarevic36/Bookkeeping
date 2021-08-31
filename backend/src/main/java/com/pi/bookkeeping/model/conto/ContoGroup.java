@@ -1,5 +1,6 @@
 package com.pi.bookkeeping.model.conto;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,6 @@ public class ContoGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "conto_group_id", unique = true, nullable = false)
     private Long id;
 
     @Column(name = "group_label", nullable = false)
@@ -25,10 +25,13 @@ public class ContoGroup {
     @Column(name = "group_name", nullable = false)
     private String groupName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="conto_class_id", referencedColumnName="conto_class_id")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="conto_class_id")
+    @JsonIgnore
     private ContoClass contoClass;
 
-    @OneToMany(mappedBy = "contoGroup", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "contoGroup", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column
+    @JsonManagedReference
     private List<ContoSubGroup> contoSubGroups;
 }

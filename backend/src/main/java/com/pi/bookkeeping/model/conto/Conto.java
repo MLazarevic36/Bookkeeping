@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "contos")
@@ -16,7 +15,6 @@ public class Conto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "conto_id", unique = true, nullable = false)
     private Long id;
 
     @Column(name = "label", nullable = false)
@@ -25,11 +23,13 @@ public class Conto {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status;
+    private ContoStatus status;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    private String type;
+    private ContoType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="conto_plan_id")

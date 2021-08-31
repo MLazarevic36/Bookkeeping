@@ -23,5 +23,12 @@ public class Company implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column
+    private List<Employee> employees;
+
+    @OneToOne(mappedBy = "company")
+    private ContoPlan contoPlan;
+
 
 }

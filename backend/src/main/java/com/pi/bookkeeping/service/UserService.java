@@ -38,4 +38,8 @@ public class UserService implements UserInterface {
     public void delete(Long id) {
         userRepo.deleteById(id);
     }
+
+    public User getCurrentUser() {
+        
+    }
 }
