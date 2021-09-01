@@ -1,10 +1,13 @@
-import { Button, Flex } from "@chakra-ui/react"
+import { Button, Flex, FormLabel } from "@chakra-ui/react"
 import FormInput from "../FormInput"
 import * as yup from "yup"
 import { useYupValidationResolver } from "../../utils/functions"
 import { useForm } from "react-hook-form"
+import SelectDropdown from "../SelectDropdown"
+import FormSelect from "../FormSelect"
+import { statusActive, statusInactive, typeAnalytic, typeSynthetic } from "../../utils/strings"
 
-const ContoForm = ({ submit, close, updateData }) => {
+const ContoForm = ({ submit, close, updateData, selectData }) => {
 
 	
 	const validationSchema = yup.object().shape({
@@ -36,16 +39,26 @@ const ContoForm = ({ submit, close, updateData }) => {
 		shouldUnregister: true,
 	})
 
+	const handleSelect = (val) => {
+		console.log(val)
+	}
+
+	const options = [{label: "test", value: 1}, {label: "test 2", value: 2}]
+
+
 	return (
 		<form onSubmit={handleSubmit(submit)}>
-			<Button>Kontni okvir</Button>
+			<FormLabel color="#012C31" fontSize="16px">
+				Kontni okvir
+			</FormLabel>
+			<SelectDropdown onChange={handleSelect} options={options}/>
 			<FormInput 
 				type="text"
 				inputName="Oznaka"
 				regName="label"
 				errors={errors.label}
 				control={control}
-				defaultValue={updateData.label}
+				defaultValue={updateData && updateData.label}
 			/>
 		
 			<FormInput 
@@ -54,7 +67,21 @@ const ContoForm = ({ submit, close, updateData }) => {
 				regName="description"
 				errors={errors.description}
 				control={control}
-				defaultValue={updateData.description}
+				defaultValue={updateData && updateData.description}
+			/>
+
+			<FormSelect
+				label={"Tip"}
+				control={control}
+				options={selectData.typeOptions}
+				defaultValue={updateData && updateData.type}	
+			/>
+
+			<FormSelect
+				label={"Status"}
+				control={control}
+				options={selectData.statusOptions}
+				defaultValue={updateData && updateData.status}
 			/>
 			{/* <Box mt={4}>
 				<FormLabel>{strings.companyType}</FormLabel>

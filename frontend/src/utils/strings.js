@@ -8,3 +8,9 @@ export const signIn = "Welcome, please sign in";
 export const username = "USERNAME";
 export const password = "PASSWORD";
 export const confirm = "CONFIRM";
+
+export const typeAnalytic = "ANALYTIC"
+export const typeSynthetic = "SYNTHETIC"
+
+export const statusActive = "ACTIVE"
+export const statusInactive = "INACTIVE"

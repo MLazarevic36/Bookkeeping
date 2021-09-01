@@ -9,21 +9,25 @@ import CustomModal from "../modals/CustomModal"
 import ContoForm from "../forms/ContoForm"
 import CustomButton from "../CustomButton"
 
-const ContoPlanTable = ({data, pagination}) => {
+const ContoPlanTable = ({data, pagination, selectData}) => {
 
-	// const data = [{
-	// 	id: 1,
-	// 	label: "00",
-	// 	description: "neki opis"
+	const dummyData = [{
+		id: 1,
+		label: "00",
+		description: "neki opis",
+		type: "ANALYTIC",
+		status: "INACTIVE"
 		
-	// },
-	// {
-	// 	id: 2,
-	// 	label: "000",
-	// 	description: "neki opis"
+	},
+	{
+		id: 2,
+		label: "000",
+		description: "neki opis",
+		type: "ANALYTIC",
+		status: "ACTIVE"
 		
-	// }
-	// ]
+	}
+	]
 
 	const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -55,8 +59,8 @@ const ContoPlanTable = ({data, pagination}) => {
             id: row.id,
 			label: row.label,
 			description: row.description,
-			type: row.type,
-			status: row.status
+			type: { label: row.type, value: row.type },
+			status: { label: row.status, value: row.status }
         }
 
         setUpdateData(defaultValues)
@@ -80,11 +84,13 @@ const ContoPlanTable = ({data, pagination}) => {
 		console.log(data)
 	}
 
+
+
 	return (
 		<>
 			<TablesStyles>
 				<BootstrapTable
-					data={data}
+					data={dummyData}
 					columns={columns}
 					keyField="id"
 					classes="TablesStyles"
@@ -107,6 +113,7 @@ const ContoPlanTable = ({data, pagination}) => {
 					submit={submit} 
 					updateData={updateData}
 					close={onClose}
+					selectData={selectData}
 				/>
 			</CustomModal>
 		</>
