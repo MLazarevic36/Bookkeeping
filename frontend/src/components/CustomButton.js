@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react"
 
-const CustomButton = ({ type }) => {
+const CustomButton = ({ type, onClick }) => {
 
 	if(type === "submit") {
 		return (
@@ -17,11 +17,21 @@ const CustomButton = ({ type }) => {
 				bg: "mc_dark",
 				}}	
 			>
-				Potvrdi
+				POTVRDI
 			</Button>
 		)
-	}else{
-		return null
+	}else if(type === "update"){
+		return (
+			<Button
+				w="120px"
+				h="38px"
+				variant="medium"
+				rounded="xl"
+				onClick={() => onClick()}
+        	>
+				IZMENI
+        	</Button>
+		)
 	}	
 }
 

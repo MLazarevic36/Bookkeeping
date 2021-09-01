@@ -1,5 +1,6 @@
 import LoginPage from "../pages/LoginPage";
 import HomePage from "../pages/HomePage";
+import ContoPlanPage from "../pages/ContoPage";
 
 const routes = [
 	{
@@ -12,6 +13,12 @@ const routes = [
 		component: HomePage,
 		isPrivate: false,
 	},
+	{
+		path: "/conto-plan",
+		component: ContoPlanPage,
+		isPrivate: false,
+	},
+	
 ];
 
 export default routes;

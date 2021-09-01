@@ -10,7 +10,7 @@ const UserNavbar = ({ children }) => {
             <nav>
                 <div className="nav-left">
 					<Link
-                        to="/config/bsa-weight"
+                        to="/conto-plan"
                         className="nav-buttons"
                         title="Kontni plan"
                         >

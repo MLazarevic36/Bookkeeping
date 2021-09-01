@@ -6,6 +6,7 @@ import persistStore from "redux-persist/es/persistStore";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import reportWebVitals from "./reportWebVitals";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css"
 
 const persistor = persistStore(store);
 

@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { Controller } from "react-hook-form";
 
-const FormInput = ({ type, inputName, regName, error, control }) => {
+const FormInput = ({ type, inputName, regName, error, control, defaultValue }) => {
 	return (
 		<FormControl minH={"100px"} isInvalid={error}>
 			<FormLabel>
@@ -26,8 +26,8 @@ const FormInput = ({ type, inputName, regName, error, control }) => {
 							boxShadow="md"
 						/>
 					)}
-					defaultValue=""
-					rules={{ required: true }}
+					defaultValue={defaultValue}
+					// rules={{ required: true }}
 				/>
 			</InputGroup>
 			{error !== undefined && (
