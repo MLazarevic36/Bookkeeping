@@ -1,6 +1,7 @@
 package com.pi.bookkeeping.service.conto;
 
 import com.pi.bookkeeping.model.conto.Conto;
+import com.pi.bookkeeping.model.conto.ContoPlan;
 import com.pi.bookkeeping.repository.conto.ContoRepo;
 import com.pi.bookkeeping.service.interfaces.conto.ContoInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class ContoService implements ContoInterface {
     @Autowired
     private ContoRepo contoRepo;
 
+    @Autowired
+    private ContoPlanService contoPlanService;
+
     @Override
     public Conto findOne(Long id) {
         return contoRepo.getOne(id);
@@ -22,6 +26,11 @@ public class ContoService implements ContoInterface {
     @Override
     public Page<Conto> findAll(Pageable pageable) {
         return contoRepo.findAll(pageable);
+    }
+
+    public Page<Conto> findAllByPlanId(Pageable pageable, Long id) {
+        ContoPlan contoPlan = contoPlanService.findOne(id);
+        return contoRepo.findAllByContoPlan(pageable, contoPlan);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.pi.bookkeeping.dto.conto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pi.bookkeeping.dto.CompanyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.List;
 public class ContoPlanDTO {
 
     private Long id;
+    @JsonIgnore
     private CompanyDTO company;
     private List<ContoDTO> contos;
 

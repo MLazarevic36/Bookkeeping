@@ -1,7 +1,9 @@
 package com.pi.bookkeeping.service.conto;
 
+import com.pi.bookkeeping.model.Company;
 import com.pi.bookkeeping.model.conto.ContoPlan;
 import com.pi.bookkeeping.repository.conto.ContoPlanRepo;
+import com.pi.bookkeeping.service.CompanyService;
 import com.pi.bookkeeping.service.interfaces.conto.ContoPlanInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,9 +16,17 @@ public class ContoPlanService implements ContoPlanInterface {
     @Autowired
     private ContoPlanRepo contoPlanRepo;
 
+    @Autowired
+    private CompanyService companyService;
+
     @Override
     public ContoPlan findOne(Long id) {
         return contoPlanRepo.getOne(id);
+    }
+
+    public ContoPlan findByCompany(Long id) {
+        Company company = companyService.findOne(id);
+        return contoPlanRepo.getByCompany(company);
     }
 
     @Override
