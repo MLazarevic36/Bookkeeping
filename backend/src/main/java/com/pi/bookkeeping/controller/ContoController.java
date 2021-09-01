@@ -1,5 +1,6 @@
 package com.pi.bookkeeping.controller;
 
+import com.pi.bookkeeping.dto.PagedResponse;
 import com.pi.bookkeeping.dto.conto.ContoClassDTO;
 import com.pi.bookkeeping.dto.conto.ContoDTO;
 import com.pi.bookkeeping.mapper.conto.ContoClassMapper;
@@ -36,16 +37,16 @@ public class ContoController {
     private ContoClassMapper contoClassMapper;
 
     @GetMapping
-    public ResponseEntity<List<ContoDTO>> getContos(Pageable pageable) {
-        try {
+    public PagedResponse<ContoDTO> getContos(Pageable pageable) {
+
             Page<Conto> contos = contoService.findAll(pageable);
-            System.out.println(pageable);
-            return new ResponseEntity<>(contoMapper.convertToDtos(contos),
-                    HttpStatus.OK);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+
+            return new PagedResponse<ContoDTO>(
+                    contoMapper.convertToDtos(contos),
+                    contos.getPageable().getPageNumber(),
+                    contos.getPageable().getPageSize(),
+                    contos.getTotalElements(),
+                    contos.getTotalPages());
     }
 
     @GetMapping(value = "/classes")

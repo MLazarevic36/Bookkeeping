@@ -1,6 +1,7 @@
 package com.pi.bookkeeping.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pi.bookkeeping.model.Employee;
 import com.pi.bookkeeping.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,25 +21,30 @@ public class UserPrincipal implements UserDetails {
 
     private GrantedAuthority grantedAuthority;
 
+    private Long employee;
+
     public UserPrincipal() {
+
     }
 
-    public UserPrincipal(Long id, String username, String password, GrantedAuthority grantedAuthority) {
+    public UserPrincipal(Long id, String username, String password, GrantedAuthority grantedAuthority, Long employee) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.grantedAuthority = grantedAuthority;
+        this.employee = employee;
     }
 
     public static UserPrincipal create(User user) {
-
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("worker");
+        String role = user.getRole().toString();
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role);
 
         return new UserPrincipal(
                 user.getId(),
                 user.getUsername(),
                 user.getPassword(),
-                simpleGrantedAuthority
+                simpleGrantedAuthority,
+                user.getEmployee().getId()
         );
     }
 
@@ -64,6 +70,8 @@ public class UserPrincipal implements UserDetails {
     public String getUsername() {
         return username;
     }
+
+    public Long getEmployee() { return employee; }
 
     @Override
     public boolean isAccountNonExpired() {

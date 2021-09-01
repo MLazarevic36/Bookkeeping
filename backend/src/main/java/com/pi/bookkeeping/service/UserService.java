@@ -39,7 +39,4 @@ public class UserService implements UserInterface {
         userRepo.deleteById(id);
     }
 
-    public User getCurrentUser() {
-        
-    }
 }

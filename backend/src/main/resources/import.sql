@@ -6,10 +6,10 @@ INSERT INTO employees VALUES (1, 'Radnicka 15', 'Aleksa', '02029292962531', 'Mil
 INSERT INTO employees VALUES (2, 'Tolstojeva 2', 'Stefan', '1872592376290', 'Zoric', 1)
 INSERT INTO employees VALUES (3, 'Balzakova 36', 'Pavle', '3606464929752', 'Mikic', 1)
 
-INSERT INTO users VALUES (1, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'admin', null);
-INSERT INTO users VALUES (2, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'user1', 1);
-INSERT INTO users VALUES (3, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'user2', 2);
-INSERT INTO users VALUES (4, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'user3', 3);
+INSERT INTO users VALUES (1, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'ADMIN', 'admin', null);
+INSERT INTO users VALUES (2, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'USER', 'user1', 1);
+INSERT INTO users VALUES (3, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'USER', 'user2', 2);
+INSERT INTO users VALUES (4, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'USER', 'user3', 3);
 
 INSERT INTO conto_plans VALUES (1, 1)
 
