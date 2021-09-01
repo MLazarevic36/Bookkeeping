@@ -60,17 +60,17 @@ public class ContoController {
                     contos.getTotalPages());
     }
 
-    @GetMapping(value = "/plan/{id}")
-    public ResponseEntity<ContoPlanDTO> getContoPlanByCompany(@PathVariable("id") Long id) {
-        try {
-            ContoPlan contoPlan = contoPlanService.findByCompany(id);
-            return new ResponseEntity<>(contoPlanMapper.convertToDto(contoPlan),
-                    HttpStatus.OK);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+//    @GetMapping(value = "/plan/{id}")
+//    public ResponseEntity<ContoPlanDTO> getContoPlanByCompany(@PathVariable("id") Long id) {
+//        try {
+//            ContoPlan contoPlan = contoPlanService.findByCompany(id);
+//            return new ResponseEntity<>(contoPlanMapper.convertToDto(contoPlan),
+//                    HttpStatus.OK);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 
     @GetMapping(value = "/classes")
     public ResponseEntity<List<ContoClassDTO>> getContoClasses(Pageable pageable) {
