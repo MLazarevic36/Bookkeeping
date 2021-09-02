@@ -1,9 +1,12 @@
-package com.pi.bookkeeping.model;
+package com.pi.bookkeeping.model.company;
 
+import com.pi.bookkeeping.model.Employee;
 import com.pi.bookkeeping.model.conto.ContoPlan;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,10 +28,15 @@ public class Company implements Serializable {
 
     @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Column
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Employee> employees;
 
     @OneToOne(mappedBy = "company")
     private ContoPlan contoPlan;
 
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<CompanyDivision> companyDivisions;
 
 }

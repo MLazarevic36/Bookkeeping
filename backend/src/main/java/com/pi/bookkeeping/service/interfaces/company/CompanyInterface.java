@@ -1,6 +1,6 @@
-package com.pi.bookkeeping.service.interfaces;
+package com.pi.bookkeeping.service.interfaces.company;
 
-import com.pi.bookkeeping.model.Company;
+import com.pi.bookkeeping.model.company.Company;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,7 +1,7 @@
 package com.pi.bookkeeping.dto.conto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pi.bookkeeping.dto.CompanyDTO;
+import com.pi.bookkeeping.dto.company.CompanyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

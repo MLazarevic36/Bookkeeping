@@ -1,6 +1,6 @@
-package com.pi.bookkeeping.repository;
+package com.pi.bookkeeping.repository.company;
 
-import com.pi.bookkeeping.model.Company;
+import com.pi.bookkeeping.model.company.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,11 +1,10 @@
 package com.pi.bookkeeping.dto;
 
+import com.pi.bookkeeping.dto.company.CompanyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor

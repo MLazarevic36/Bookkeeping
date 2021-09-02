@@ -1,9 +1,9 @@
-package com.pi.bookkeeping.controller;
+package com.pi.bookkeeping.controller.company;
 
-import com.pi.bookkeeping.dto.CompanyDTO;
-import com.pi.bookkeeping.mapper.CompanyMapper;
-import com.pi.bookkeeping.model.Company;
-import com.pi.bookkeeping.service.CompanyService;
+import com.pi.bookkeeping.dto.company.CompanyDTO;
+import com.pi.bookkeeping.mapper.company.CompanyMapper;
+import com.pi.bookkeeping.model.company.Company;
+import com.pi.bookkeeping.service.company.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

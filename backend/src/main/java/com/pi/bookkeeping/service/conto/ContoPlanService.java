@@ -1,9 +1,9 @@
 package com.pi.bookkeeping.service.conto;
 
-import com.pi.bookkeeping.model.Company;
+import com.pi.bookkeeping.model.company.Company;
 import com.pi.bookkeeping.model.conto.ContoPlan;
 import com.pi.bookkeeping.repository.conto.ContoPlanRepo;
-import com.pi.bookkeeping.service.CompanyService;
+import com.pi.bookkeeping.service.company.CompanyService;
 import com.pi.bookkeeping.service.interfaces.conto.ContoPlanInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

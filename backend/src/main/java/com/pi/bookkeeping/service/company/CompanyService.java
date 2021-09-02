@@ -1,8 +1,8 @@
-package com.pi.bookkeeping.service;
+package com.pi.bookkeeping.service.company;
 
-import com.pi.bookkeeping.model.Company;
-import com.pi.bookkeeping.repository.CompanyRepo;
-import com.pi.bookkeeping.service.interfaces.CompanyInterface;
+import com.pi.bookkeeping.model.company.Company;
+import com.pi.bookkeeping.repository.company.CompanyRepo;
+import com.pi.bookkeeping.service.interfaces.company.CompanyInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

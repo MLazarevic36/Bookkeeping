@@ -1,11 +1,7 @@
-package com.pi.bookkeeping.mapper;
+package com.pi.bookkeeping.mapper.company;
 
-import com.pi.bookkeeping.dto.CompanyDTO;
-import com.pi.bookkeeping.dto.UserDTO;
-import com.pi.bookkeeping.model.Company;
-import com.pi.bookkeeping.model.Role;
-import com.pi.bookkeeping.model.User;
-import com.pi.bookkeeping.security.UserPrincipal;
+import com.pi.bookkeeping.dto.company.CompanyDTO;
+import com.pi.bookkeeping.model.company.Company;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

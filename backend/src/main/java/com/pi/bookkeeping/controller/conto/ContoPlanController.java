@@ -1,4 +1,4 @@
-package com.pi.bookkeeping.controller;
+package com.pi.bookkeeping.controller.conto;
 
 import com.pi.bookkeeping.dto.PagedResponse;
 import com.pi.bookkeeping.dto.conto.ContoClassDTO;
