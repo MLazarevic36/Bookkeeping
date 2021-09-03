@@ -1,7 +1,8 @@
-//yup validation resolver
 
 import { useCallback } from "react";
+import generateToast from "../components/ToastGenerator";
 
+//yup validation resolver
 export const useYupValidationResolver = validationSchema =>
 	useCallback(
 		async data => {
@@ -31,3 +32,10 @@ export const useYupValidationResolver = validationSchema =>
 		},
 	[validationSchema]
 );
+
+export const handleToast = (toast, message, messageId) => {
+	const id = messageId
+	if (!toast.isActive(id)) {
+		toast(generateToast(message, id))
+	}
+}

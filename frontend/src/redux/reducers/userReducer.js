@@ -1,4 +1,4 @@
-import { loginURL } from "../api";
+import { loginURL, meURL } from "../api";
 import { createAction, createReducer } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
@@ -26,6 +26,13 @@ export const logout = () => async (dispatch) => {
 
 export const cleanMessage = () => async (dispatch) => {
 	return dispatch(CLEAN_MESSAGE());
+};
+
+export const fetchMyData = () => async (dispatch) => {
+	dispatch(START_REQUEST());
+	return axios
+		.get(meURL)
+		.then((res) => handleResponse(res, dispatch, REQUEST_SUCCESS, REQUEST_FAIL));
 };
 
 const handleResponse = (res, dispatch, success, fail) => {
@@ -59,6 +66,10 @@ const initState = {
 	token: "",
 	loading: false,
 	message: null,
+	id: "",
+	username: "",
+	role: "",
+	employee: null
 };
 
 export const userReducer = createReducer(initState, (builder) => {
@@ -73,7 +84,10 @@ export const userReducer = createReducer(initState, (builder) => {
 		})
 		.addCase(REQUEST_SUCCESS, (state, action) => {
 			state.loading = false;
-			state.message = action.payload;
+			state.id = action.payload.id
+			state.username = action.payload.username
+			state.role = action.payload.role
+			state.employee = action.payload.employee
 		})
 		.addCase(REQUEST_FAIL, (state, action) => {
 			state.loading = false;

@@ -4,7 +4,6 @@ import {
 	FormLabel,
 	Input,
 	InputGroup,
-	InputLeftElement,
 } from "@chakra-ui/react";
 import { Controller } from "react-hook-form";
 

@@ -1,12 +1,8 @@
-import { Button } from "@chakra-ui/button";
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
-import { Box, Flex, Heading, Link, Stack, Text } from "@chakra-ui/layout";
-import { Link as RouterLink } from "react-router-dom";
+import { InputGroup } from "@chakra-ui/input";
+import { Flex, Heading, Stack } from "@chakra-ui/layout";
 import React from "react";
-import { ReactComponent as WhiteArrow } from "../../assets/whiteArrow.svg";
 import { useForm } from "react-hook-form";
 import useUser from "../../redux/hooks/useUser";
-import { confirm, password, signIn, username } from "../../utils/strings";
 import FormInput from "../FormInput";
 import CustomButton from "../CustomButton";
 
@@ -14,7 +10,6 @@ const LoginForm = () => {
 	const hook = useUser();
 
 	const {
-		register,
 		handleSubmit,
 		control,
 		formState: { errors },

@@ -2,8 +2,9 @@ import React from "react"
 import { Link } from "react-router-dom"
 import useUser from "../../redux/hooks/useUser"
 import styled from "styled-components"
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu"
 const UserNavbar = ({ children }) => {
+
+	const hook = useUser()
  
     return (
         <Container>
@@ -70,7 +71,7 @@ const UserNavbar = ({ children }) => {
                         <p className="nav-title">Profile</p>
                     </Link>*/}
 					<div className="nav-buttons" title="Logout">
-                        <p className="nav-title">Logout</p>
+                        <button className="nav-title" onClick={() => hook.signout()}>Logout</button>
                     </div>
                 </div>
             </nav>

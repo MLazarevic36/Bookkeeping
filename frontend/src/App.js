@@ -5,6 +5,7 @@ import { theme } from "./components/theme";
 import axios from "axios";
 import { base_url } from "./redux/api";
 import { GlobalStyles } from "./components/StyledComponentsGlobal";
+import store from "./redux/store"
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
     axios.defaults.baseURL = base_url
 
     axios.interceptors.request.use(function (config) {
-        // config.headers.Authorization = `Bearer ${store.getState().user.token}`
+        config.headers.Authorization = `Bearer ${store.getState().user.token}`
 
         return config
     })

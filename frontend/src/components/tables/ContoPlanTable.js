@@ -1,6 +1,5 @@
 import { TablesStyles } from "./TableStyles"
 import BootstrapTable from "react-bootstrap-table-next"
-import { createStoreHook } from "react-redux"
 import { Box, useDisclosure } from "@chakra-ui/react"
 import Pagination from "./Pagination"
 import DeleteModal from "../modals/DeleteModal"
@@ -8,30 +7,18 @@ import { useState } from "react"
 import CustomModal from "../modals/CustomModal"
 import ContoForm from "../forms/ContoForm"
 import CustomButton from "../CustomButton"
+import { defaultSize, statusActive, statusOptions, typeOptions, typeSynthetic } from "../../utils/strings"
+import useConto from "../../redux/hooks/useConto"
+import useUser from "../../redux/hooks/useUser"
 
 const ContoPlanTable = ({data, pagination, selectData}) => {
-
-	const dummyData = [{
-		id: 1,
-		label: "00",
-		description: "neki opis",
-		type: "ANALYTIC",
-		status: "INACTIVE"
-		
-	},
-	{
-		id: 2,
-		label: "000",
-		description: "neki opis",
-		type: "ANALYTIC",
-		status: "ACTIVE"
-		
-	}
-	]
 
 	const { isOpen, onOpen, onClose } = useDisclosure()
 
 	const [updateData, setUpdateData] = useState(null)
+
+	const hook = useConto()
+	const hookUser = useUser()
 
 	const columns = [
 		{
@@ -45,22 +32,39 @@ const ContoPlanTable = ({data, pagination, selectData}) => {
 		{
             dataField: "type",
             text: "Tip",
+			formatter: (cell) => {
+				if(cell === typeSynthetic) {
+					return "SINTETIČKI"
+				}else{
+					return "ANALITIČKI"
+				}
+			}
         },
 		{
             dataField: "status",
             text: "Status",
+			formatter: (cell) => {
+				if(cell === statusActive) {
+					return "AKTIVAN"
+				}else{
+					return "NEAKTIVAN"
+				}
+			}
         },
 	]
 
 	const handleUpdateModal = (row) => {
+
+		const defaultType = typeOptions.find(e => e.value === row.type)
+		const defaultStatus = statusOptions.find(e => e.value === row.status)
 
 
         const defaultValues = {
             id: row.id,
 			label: row.label,
 			description: row.description,
-			type: { label: row.type, value: row.type },
-			status: { label: row.status, value: row.status }
+			type: defaultType,
+			status: defaultStatus
         }
 
         setUpdateData(defaultValues)
@@ -71,7 +75,7 @@ const ContoPlanTable = ({data, pagination, selectData}) => {
 	const expandRow = {
         renderer: (row) => (
             <div className="btns-container">
-                <DeleteModal remove={() => console.log(row.id)} />
+                <DeleteModal remove={() => handleDelete(row.id)} />
                 {/* <UpdateButton onClick={() => handleUpdateModal(row)} /> */}
 				<CustomButton type="update" onClick={() => handleUpdateModal(row)}/>
             </div>
@@ -80,8 +84,32 @@ const ContoPlanTable = ({data, pagination, selectData}) => {
         parentClassName: "parentExpandedRow",
     }
 
+	const handleDelete = (id) => {
+		hook.remove(id).then((res) => {
+			if(res !== undefined && res.status === 200) {
+				onClose()
+				hook.fetchContos(0, defaultSize, hookUser.employee.company)
+			}
+		})
+	}
+
 	const submit = (data) => {
-		console.log(data)
+		
+		const payload = {
+			id: updateData.id,
+			label: data.label,
+			description: data.description,
+			status: data.status.value,
+			type: data.type.value,
+			contoPlan: hook.contos[0].contoPlan
+		}
+
+		hook.update(payload).then((res) => {
+			if(res !== undefined && res.status === 200) {
+				onClose()
+				hook.fetchContos(0, defaultSize, hookUser.employee.company)
+			}
+		})
 	}
 
 
@@ -90,7 +118,7 @@ const ContoPlanTable = ({data, pagination, selectData}) => {
 		<>
 			<TablesStyles>
 				<BootstrapTable
-					data={dummyData}
+					data={data}
 					columns={columns}
 					keyField="id"
 					classes="TablesStyles"

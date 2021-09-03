@@ -1,11 +1,11 @@
-import { Button, Flex, FormLabel } from "@chakra-ui/react"
+import { Button, Flex, FormLabel, FormControl } from "@chakra-ui/react"
 import FormInput from "../FormInput"
 import * as yup from "yup"
 import { useYupValidationResolver } from "../../utils/functions"
 import { useForm } from "react-hook-form"
 import SelectDropdown from "../SelectDropdown"
 import FormSelect from "../FormSelect"
-import { statusActive, statusInactive, typeAnalytic, typeSynthetic } from "../../utils/strings"
+import styled from "styled-components"
 
 const ContoForm = ({ submit, close, updateData, selectData }) => {
 
@@ -27,6 +27,7 @@ const ContoForm = ({ submit, close, updateData, selectData }) => {
         handleSubmit,
         control,
         formState: { errors },
+		setValue
     } = useForm({ 
 		resolver: resolver,
 		mode: 'onSubmit',
@@ -40,18 +41,19 @@ const ContoForm = ({ submit, close, updateData, selectData }) => {
 	})
 
 	const handleSelect = (val) => {
-		console.log(val)
+		setValue("label", val.value.label)
+		setValue("description", val.value.name)
 	}
 
-	const options = [{label: "test", value: 1}, {label: "test 2", value: 2}]
-
-
 	return (
-		<form onSubmit={handleSubmit(submit)}>
-			<FormLabel color="#012C31" fontSize="16px">
-				Kontni okvir
-			</FormLabel>
-			<SelectDropdown onChange={handleSelect} options={options}/>
+
+		<Form onSubmit={handleSubmit(submit)}>
+			<FormControl>
+				<FormLabel color="#012C31" fontSize="16px">
+					Kontni okvir
+				</FormLabel>
+				<SelectDropdown onChange={handleSelect} options={selectData.classOptions}/>
+			</FormControl>
 			<FormInput 
 				type="text"
 				inputName="Oznaka"
@@ -72,6 +74,7 @@ const ContoForm = ({ submit, close, updateData, selectData }) => {
 
 			<FormSelect
 				label={"Tip"}
+				regName={"type"}
 				control={control}
 				options={selectData.typeOptions}
 				defaultValue={updateData && updateData.type}	
@@ -79,20 +82,11 @@ const ContoForm = ({ submit, close, updateData, selectData }) => {
 
 			<FormSelect
 				label={"Status"}
+				regName={"status"}
 				control={control}
 				options={selectData.statusOptions}
 				defaultValue={updateData && updateData.status}
 			/>
-			{/* <Box mt={4}>
-				<FormLabel>{strings.companyType}</FormLabel>
-				<Controller
-					as={<SelectDropdown />}
-					control={control}
-					name="company_type"
-					options={selectData.companyTypes}
-					defaultValue={updateData && updateData.defaultCompanyType}
-				/>
-			</Box> */}
 			<Flex justify="flex-end" mt={4}>
 				<Button onClick={close} variant="red">
 					{"ODUSTANI"}
@@ -101,8 +95,15 @@ const ContoForm = ({ submit, close, updateData, selectData }) => {
 					{"SAČUVAJ"}
 				</Button>
 			</Flex>
-	</form>
+		</Form>
+
 	)
 }
 
 export default ContoForm
+
+const Form = styled.form`
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+`

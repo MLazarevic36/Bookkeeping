@@ -1,7 +1,6 @@
 import React from "react"
 import styled from "styled-components"
 import ReactPaginate from "react-paginate"
-import { Select } from "@chakra-ui/select"
 import { Box } from "@chakra-ui/layout"
 import { LeftArrow, RightArrow } from "../Icons"
 
