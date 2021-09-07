@@ -1,18 +1,25 @@
 package com.pi.bookkeeping.service.account;
 
 import com.pi.bookkeeping.model.account.AccountItem;
+import com.pi.bookkeeping.model.conto.Conto;
 import com.pi.bookkeeping.repository.account.AccountItemRepo;
+import com.pi.bookkeeping.service.conto.ContoService;
 import com.pi.bookkeeping.service.interfaces.account.AccountItemInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccountItemService implements AccountItemInterface {
 
     @Autowired
     private AccountItemRepo accountItemRepo;
+
+    @Autowired
+    private ContoService contoService;
 
     @Override
     public AccountItem findOne(Long id) {
@@ -37,5 +44,11 @@ public class AccountItemService implements AccountItemInterface {
     @Override
     public void delete(Long id) {
         accountItemRepo.deleteById(id);
+    }
+
+    public void deleteAllByContoId(Long id) {
+        Conto conto = contoService.findOne(id);
+        List<AccountItem> accountItems = accountItemRepo.findAllByConto(conto);
+        accountItems.forEach(item -> accountItemRepo.deleteById(item.getId()));
     }
 }

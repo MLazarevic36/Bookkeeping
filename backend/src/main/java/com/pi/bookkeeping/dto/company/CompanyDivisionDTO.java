@@ -1,5 +1,6 @@
 package com.pi.bookkeeping.dto.company;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pi.bookkeeping.dto.account.AccountDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class CompanyDivisionDTO implements Serializable {
 
     private Long id;
     private String name;
-    private CompanyDTO company;
-    private List<AccountDTO> accounts;
+    private Long company;
+//    private List<AccountDTO> accounts;
 
 }

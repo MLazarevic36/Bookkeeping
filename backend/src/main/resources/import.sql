@@ -1,6 +1,18 @@
 
 
-INSERT INTO companies VALUES (1, 'Data Drill')
+INSERT INTO companies VALUES (1, 'Mercury Co. ')
+INSERT INTO companies VALUES (2, 'Hatch Security')
+INSERT INTO companies VALUES (3, 'Low Tide Foods')
+INSERT INTO companies VALUES (4, 'Hookurity')
+INSERT INTO companies VALUES (5, 'Globefruit')
+
+INSERT INTO company_divisions VALUES (1, 'Finansije', 1)
+INSERT INTO company_divisions VALUES (2, 'IT', 1)
+INSERT INTO company_divisions VALUES (3, 'Menadzment operacija', 1)
+
+INSERT INTO company_partners VALUES (1, 'Hatch Security', 1)
+INSERT INTO company_partners VALUES (2, 'Low Tide Foods', 1)
+INSERT INTO company_partners VALUES (3, 'Hookurity', 1)
 
 INSERT INTO employees VALUES (1, 'Radnicka 15', 'Aleksa', '02029292962531', 'Milanovic', 1)
 INSERT INTO employees VALUES (2, 'Tolstojeva 2', 'Stefan', '1872592376290', 'Zoric', 1)
@@ -12,8 +24,10 @@ INSERT INTO users VALUES (3, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7a
 INSERT INTO users VALUES (4, '$2y$12$FDhzPVA3m4YEF8kvqS5dOuvo7cswS3UrWEh7VhjoF7aT1mLJ2.LOC', 'USER', 'user3', 3);
 
 INSERT INTO conto_plans VALUES (1, 1)
+INSERT INTO main_books VALUES (1, 1)
 
-INSERT INTO contos VALUES (1, 'UPISANI A NEUPLAĆENI KAPITAL', '00', 'ACTIVE', 'SYNTHETIC', 1)
+-- INSERT INTO contos VALUES (1, 'UPISANI A NEUPLAĆENI KAPITAL', '00', 'ACTIVE', 'ANALYTIC', 1)
+-- INSERT INTO contos VALUES (2, 'Upisane a neuplaćene akcije', '000', 'ACTIVE', 'ANALYTIC', 1)
 
 INSERT INTO conto_classes VALUES (1, '0', 'UPISANI A NEUPLAĆENI KAPITAL I STALNA IMOVINA')
 INSERT INTO conto_classes VALUES (2, '1', 'ZALIHE I STALNA SREDSTVA NAMENJENA PRODAJI')

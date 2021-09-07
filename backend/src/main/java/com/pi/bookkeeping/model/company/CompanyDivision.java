@@ -26,7 +26,6 @@ public class CompanyDivision implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="company_id")
-    @JsonIgnore
     private Company company;
 
     @OneToMany(mappedBy = "companyDivision", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

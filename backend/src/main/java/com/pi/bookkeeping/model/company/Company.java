@@ -1,6 +1,8 @@
 package com.pi.bookkeeping.model.company;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pi.bookkeeping.model.Employee;
+import com.pi.bookkeeping.model.account.Account;
 import com.pi.bookkeeping.model.conto.ContoPlan;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,17 +28,21 @@ public class Company implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Employee> employees;
 
     @OneToOne(mappedBy = "company")
     private ContoPlan contoPlan;
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Column
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CompanyDivision> companyDivisions;
+
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<CompanyPartner> companyPartners;
+
+    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Account> accounts;
+
+
 
 }

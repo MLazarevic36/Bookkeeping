@@ -1,5 +1,7 @@
 package com.pi.bookkeeping.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pi.bookkeeping.dto.UserDTO;
 import com.pi.bookkeeping.dto.company.CompanyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,8 +19,8 @@ public class EmployeeDTO {
     private String lastName;
     private String jmbg;
     private String address;
-    private UserDTO user;
-    private CompanyDTO company;
+    private Long user;
+    private Long company;
 }
 
 

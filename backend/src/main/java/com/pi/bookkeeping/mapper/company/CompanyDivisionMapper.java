@@ -20,11 +20,15 @@ public class CompanyDivisionMapper {
     private ModelMapper modelMapper;
 
     public CompanyDivisionDTO convertToDto(CompanyDivision companyDivision) {
-        return modelMapper.map(companyDivision, CompanyDivisionDTO.class);
+        CompanyDivisionDTO companyDivisionDTO = new CompanyDivisionDTO();
+        companyDivisionDTO.setId(companyDivision.getId());
+        companyDivisionDTO.setName(companyDivision.getName());
+        companyDivisionDTO.setCompany(companyDivision.getCompany().getId());
+        return companyDivisionDTO;
     }
 
-    public List<CompanyDivisionDTO> convertToDtos(Page<CompanyDivision> companyDivisionPage) {
-        return companyDivisionPage.stream().map(this::convertToDto).collect(Collectors.toList());
+    public List<CompanyDivisionDTO> convertToDtosList(List<CompanyDivision> companyDivisionList) {
+        return companyDivisionList.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     public CompanyDivision convertToEntity(CompanyDivisionDTO companyDivisionDTO) {

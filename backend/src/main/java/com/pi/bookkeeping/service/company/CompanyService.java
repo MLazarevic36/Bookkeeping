@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CompanyService implements CompanyInterface {
 
@@ -16,12 +18,16 @@ public class CompanyService implements CompanyInterface {
 
     @Override
     public Company findOne(Long id) {
-        return companyRepo.getOne(id);
+        return companyRepo.getById(id);
     }
 
     @Override
     public Page<Company> findAll(Pageable pageable) {
         return companyRepo.findAll(pageable);
+    }
+
+    public List<Company> findAllList() {
+        return companyRepo.findAll();
     }
 
     @Override

@@ -21,6 +21,6 @@ public class UserDTO implements Serializable {
     @JsonIgnore
     private String password;
     private Role role;
-    private Long employee;
+    private EmployeeDTO employee;
 
 }

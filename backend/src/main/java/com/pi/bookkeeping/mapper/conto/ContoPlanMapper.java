@@ -17,8 +17,15 @@ public class ContoPlanMapper {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ContoMapper contoMapper;
+
     public ContoPlanDTO convertToDto(ContoPlan contoPlan) {
-        return modelMapper.map(contoPlan, ContoPlanDTO.class);
+        ContoPlanDTO contoPlanDTO = new ContoPlanDTO();
+        contoPlanDTO.setId(contoPlan.getId());
+        contoPlanDTO.setCompany(contoPlan.getCompany().getId());
+        contoPlanDTO.setContos(contoMapper.convertToDtosList(contoPlan.getContos()));
+        return contoPlanDTO;
     }
 
     public List<ContoPlanDTO> convertToDtos(Page<ContoPlan> contoPlanPage) {

@@ -21,13 +21,13 @@ public class UserPrincipal implements UserDetails {
 
     private GrantedAuthority grantedAuthority;
 
-    private Long employee;
+    private Employee employee;
 
     public UserPrincipal() {
 
     }
 
-    public UserPrincipal(Long id, String username, String password, GrantedAuthority grantedAuthority, Long employee) {
+    public UserPrincipal(Long id, String username, String password, GrantedAuthority grantedAuthority, Employee employee) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -44,7 +44,7 @@ public class UserPrincipal implements UserDetails {
                 user.getUsername(),
                 user.getPassword(),
                 simpleGrantedAuthority,
-                user.getEmployee().getId()
+                user.getEmployee()
         );
     }
 
@@ -71,7 +71,7 @@ public class UserPrincipal implements UserDetails {
         return username;
     }
 
-    public Long getEmployee() { return employee; }
+    public Employee getEmployee() { return employee; }
 
     @Override
     public boolean isAccountNonExpired() {
