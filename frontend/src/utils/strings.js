@@ -14,11 +14,14 @@ export const confirm = "CONFIRM";
 export const typeAnalytic = "ANALYTIC"
 export const typeSynthetic = "SYNTHETIC"
 
+export const typeCalculation = "CALCULATION"
+export const typeExtract = "EXTRACT"
+
 export const statusActive = "ACTIVE"
 export const statusInactive = "INACTIVE"
 
 
-export const typeOptions = [
+export const typeContoOptions = [
 	{label: "ANALITIČKI", value: typeAnalytic}, 
 	{label: "SINTETIČKI", value: typeSynthetic}
 ]
@@ -26,4 +29,9 @@ export const typeOptions = [
 export const statusOptions = [
 	{label: "AKTIVAN", value: statusActive},
 	{label: "NEAKTIVAN", value: statusInactive}
+]
+
+export const typeAccountOptions = [
+	{label: "KALKULACIJA", value: typeCalculation}, 
+	{label: "IZVOD", value: typeExtract}
 ]

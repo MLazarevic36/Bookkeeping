@@ -18,14 +18,14 @@ const UserNavbar = ({ children }) => {
 						<p className="nav-title">Kontni plan</p>
 					</Link>
 					<Link
-                        to="/config/bsa-weight"
+                        to="/accounts"
                         className="nav-buttons"
                         title="Nalog"
                         >
 						<p className="nav-title">Nalog</p>
 					</Link>
 					<Link
-                        to="/config/bsa-weight"
+                        to="/main-book"
                         className="nav-buttons"
                         title="Glavna knjiga"
                         >

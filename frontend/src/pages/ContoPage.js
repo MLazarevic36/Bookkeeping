@@ -7,7 +7,7 @@ import CustomModal from "../components/modals/CustomModal";
 import ContoPlanTable from "../components/tables/ContoPlanTable";
 import useConto from "../redux/hooks/useConto";
 import useUser from "../redux/hooks/useUser";
-import { defaultSize, statusOptions, typeOptions } from "../utils/strings";
+import { defaultSize, statusOptions, typeContoOptions } from "../utils/strings";
 import { useToast } from "@chakra-ui/toast"
 import { handleToast } from "../utils/functions";
 
@@ -24,7 +24,7 @@ const ContoPlanPage = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	
 	useEffect(() => {
-		hook.fetchContos(0, defaultSize, hookUser.employee.company)
+		hook.fetchPage(0, defaultSize, hookUser.employee.company)
 		hook.fetchClasses()
 	}, []) //eslint-disable-line
 
@@ -49,7 +49,7 @@ const ContoPlanPage = () => {
 	}, [hook.message])  //eslint-disable-line
 
 	const selectData = {
-		typeOptions: typeOptions,
+		typeOptions: typeContoOptions,
 		statusOptions: statusOptions,
 		classOptions: contoClassesOptions
 	}
@@ -79,15 +79,16 @@ const ContoPlanPage = () => {
 			description: data.description,
 			status: data.status.value,
 			type: data.type.value,
-			contoPlan: hook.contos[0].contoPlan
+			contoPlan: hookUser.employee.company
 		}
 
 		hook.add(payload).then((res) => {
 			if(res !== undefined && res.status === 200) {
 				onClose()
-				hook.fetchContos(0, defaultSize, hookUser.employee.company)
+				hook.fetchPage(0, defaultSize, hookUser.employee.company)
 			}
 		})
+		console.log(payload)
 	}
 
 	return ( 

@@ -7,7 +7,7 @@ import { useState } from "react"
 import CustomModal from "../modals/CustomModal"
 import ContoForm from "../forms/ContoForm"
 import CustomButton from "../CustomButton"
-import { defaultSize, statusActive, statusOptions, typeOptions, typeSynthetic } from "../../utils/strings"
+import { defaultSize, statusActive, statusOptions, typeContoOptions, typeSynthetic } from "../../utils/strings"
 import useConto from "../../redux/hooks/useConto"
 import useUser from "../../redux/hooks/useUser"
 
@@ -55,7 +55,7 @@ const ContoPlanTable = ({data, pagination, selectData}) => {
 
 	const handleUpdateModal = (row) => {
 
-		const defaultType = typeOptions.find(e => e.value === row.type)
+		const defaultType = typeContoOptions.find(e => e.value === row.type)
 		const defaultStatus = statusOptions.find(e => e.value === row.status)
 
 
@@ -75,9 +75,9 @@ const ContoPlanTable = ({data, pagination, selectData}) => {
 	const expandRow = {
         renderer: (row) => (
             <div className="btns-container">
-                <DeleteModal remove={() => handleDelete(row.id)} />
+                {/* <DeleteModal remove={() => handleDelete(row.id)} /> */}
                 {/* <UpdateButton onClick={() => handleUpdateModal(row)} /> */}
-				<CustomButton type="update" onClick={() => handleUpdateModal(row)}/>
+				<CustomButton type="update" text="IZMENI" onClick={() => handleUpdateModal(row)}/>
             </div>
         ),
         className: "expandedRow",
@@ -88,7 +88,7 @@ const ContoPlanTable = ({data, pagination, selectData}) => {
 		hook.remove(id).then((res) => {
 			if(res !== undefined && res.status === 200) {
 				onClose()
-				hook.fetchContos(0, defaultSize, hookUser.employee.company)
+				hook.fetchPage(0, defaultSize, hookUser.employee.company)
 			}
 		})
 	}
@@ -107,7 +107,7 @@ const ContoPlanTable = ({data, pagination, selectData}) => {
 		hook.update(payload).then((res) => {
 			if(res !== undefined && res.status === 200) {
 				onClose()
-				hook.fetchContos(0, defaultSize, hookUser.employee.company)
+				hook.fetchPage(0, defaultSize, hookUser.employee.company)
 			}
 		})
 	}

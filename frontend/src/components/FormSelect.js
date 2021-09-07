@@ -18,6 +18,7 @@ const FormSelect = ({label, control, options, defaultValue, regName}) => {
 						{...field} 
 						ref={ref} 
 						options={options} 
+						// value={field.value}
 					/>}
 			/>
 		</FormControl>

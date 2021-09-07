@@ -61,7 +61,7 @@ const customTheme = (base) => {
     }
 }
 
-export default function SelectDropdown({ options, placeholder, onChange, ...rest }) {
+export default function SelectDropdown({ options, placeholder, onChange, value, ...rest }) {
 
     return (
         <Select
@@ -72,6 +72,7 @@ export default function SelectDropdown({ options, placeholder, onChange, ...rest
 			placeholder={placeholder ? placeholder : "Izaberi"}
             isClearable
 			onChange={onChange}
+			value={value}
         ></Select>
     )
 }

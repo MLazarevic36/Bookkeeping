@@ -1,7 +1,7 @@
 import { Button } from "@chakra-ui/react"
 import { ReactComponent as PlusIcon } from "../assets/plus-icon.svg"
 
-const CustomButton = ({ type, onClick }) => {
+const CustomButton = ({ type, onClick, text }) => {
 
 	if(type === "submit") {
 		return (
@@ -30,7 +30,7 @@ const CustomButton = ({ type, onClick }) => {
 				rounded="xl"
 				onClick={() => onClick()}
         	>
-				IZMENI
+				{text}
         	</Button>
 		)
 	}else if(type === "add") {
@@ -39,14 +39,22 @@ const CustomButton = ({ type, onClick }) => {
 				variant="medium"
 				w="44px"
 				h="44px"
-				// position="absolute"
-				// bottom="5"
-				// right="5"
-				// top="1000"
 				onClick={() => onClick()}
 			>
 				<PlusIcon style={{ width: "22px", height: "22px" }} />
 			</Button>
+		)
+	}else if(type === "delete") {
+		return (
+			<Button
+				w="140px"
+				h="38px"
+				variant="red"
+				rounded="xl"
+				onClick={() => onClick()}
+        	>
+				OBRIŠI STAVKU
+        	</Button>
 		)
 	}	
 }

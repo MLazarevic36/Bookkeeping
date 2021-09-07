@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/modal"
 import React, { useRef } from "react"
 
-const DeleteModal = ({ remove }) => {
+const DeleteModal = ({ remove, text }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = useRef()
@@ -19,7 +19,7 @@ const DeleteModal = ({ remove }) => {
     return (
         <>
             <Button onClick={onOpen} w="120px" h="38px" variant="red" rounded="xl">
-                OBRIŠI
+                {text}
             </Button>
             <AlertDialog
                 motionPreset="slideInBottom"

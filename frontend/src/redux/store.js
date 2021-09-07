@@ -1,7 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { accountReducer } from "./reducers/accountReducer";
+import { companyReducer } from "./reducers/companyReducer";
 import { contoReducer } from "./reducers/contoReducer";
+import { formReducer } from "./reducers/formReducer";
+import { mainBookReducer } from "./reducers/mainBookReducer";
 import { userReducer } from "./reducers/userReducer";
 
 const persistConfig = {
@@ -12,7 +16,11 @@ const persistConfig = {
 
 const reducer = combineReducers({
 	user: userReducer,
-	conto: contoReducer
+	conto: contoReducer,
+	form: formReducer,
+	company: companyReducer,
+	account: accountReducer,
+	mainBook: mainBookReducer
 });
 
 const rootReducer = (state, action) => {

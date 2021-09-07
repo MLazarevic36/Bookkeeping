@@ -1,6 +1,8 @@
 import LoginPage from "../pages/LoginPage";
 import HomePage from "../pages/HomePage";
 import ContoPlanPage from "../pages/ContoPage";
+import AccountPage from "../pages/AccountPage";
+import MainBookPage from "../pages/MainBookPage";
 
 const routes = [
 	{
@@ -18,6 +20,16 @@ const routes = [
 		component: ContoPlanPage,
 		isPrivate: false,
 	},
+	{
+		path: "/accounts",
+		component: AccountPage,
+		isPrivate: false,
+	},
+	{
+		path: "/main-book",
+		component: MainBookPage,
+		isPrivate: false
+	}
 	
 ];
 

@@ -1,68 +1,64 @@
-import { contoPageURL, contoClassURL, contoURL, contoDeleteURL, contoDropdownURL } from "../api"
+import { accountItemDeleteURL, accountPageURL, accountURL, creditAccountURL } from "../api"
 import { createAction, createReducer } from "@reduxjs/toolkit"
 import axios from "axios"
 import {
 	serverErrorMessage,
-	wrongCredentialsMessage,
 } from "../../utils/strings"
 
-const START_REQUEST = createAction("CONTO/START_REQUEST")
-const FETCH_SUCCESS = createAction("CONTO/FETCH_SUCCESS")
-const REQUEST_FAIL = createAction("CONTO/REQUEST_FAIL")
-const REQUEST_SUCCESS = createAction("CONTO/REQUEST_SUCCESS")
-const CLEAN_MESSAGE = createAction("CONTO/CLEAN_MESSAGE")
-const FETCH_SUCCESS_CLASSES = createAction("CONTO/CLASS/FETCH_SUCCESS")
-const FETCH_SUCCESS_DROPDOWN = createAction("CONTO/FETCH_SUCCESS_DROPDOWN")
+const START_REQUEST = createAction("ACCOUNT/START_REQUEST")
+const FETCH_SUCCESS = createAction("ACCOUNT/FETCH_SUCCESS")
+const REQUEST_FAIL = createAction("ACCOUNT/REQUEST_FAIL")
+const REQUEST_SUCCESS = createAction("ACCOUNT/REQUEST_SUCCESS")
+const CLEAN_MESSAGE = createAction("ACCOUNT/CLEAN_MESSAGE")
 
-export const fetchContosPage = (pageNumber, pageSize, contoPlanId) => async (dispatch) => {
+export const fetchAccountsPage = (pageNumber, pageSize, accountPlanId) => async (dispatch) => {
 	dispatch(START_REQUEST());
 	return axios
-		.get(contoPageURL(pageNumber, pageSize, contoPlanId))
+		.get(accountPageURL(pageNumber, pageSize, accountPlanId))
 		.then((res) => handleResponse(res, dispatch, FETCH_SUCCESS, REQUEST_FAIL))
 		.catch(error => console.log(error))
 }
 
-export const fetchContosDropdown = (companyId) => async (dispatch) => {
+
+export const addAccount = (payload) => async (dispatch) => {
 	dispatch(START_REQUEST());
 	return axios
-		.get(contoDropdownURL(companyId))
-		.then((res) => handleResponse(res, dispatch, FETCH_SUCCESS_DROPDOWN, REQUEST_FAIL))
-		.catch(error => console.log(error))
-}
-
-
-export const fetchContoClasses = () => async (dispatch) => {
-	dispatch(START_REQUEST());
-	return axios
-		.get(contoClassURL)
-		.then((res) => handleResponse(res, dispatch, FETCH_SUCCESS_CLASSES, REQUEST_FAIL))
-		.catch(error => console.log(error))
-
-}
-
-export const addConto = (payload) => async (dispatch) => {
-	dispatch(START_REQUEST());
-	return axios
-		.post(contoURL, payload)
+		.post(accountURL, payload)
 		.then((res) => handleResponse(res, dispatch, REQUEST_SUCCESS, REQUEST_FAIL))
 		.catch(error => console.log(error))
 }
 
-export const updateConto = (payload) => async (dispatch) => {
+export const creditAccount = (id) => async (dispatch) => {
 	dispatch(START_REQUEST());
 	return axios
-		.put(contoURL, payload)
+		.put(creditAccountURL(id), {})
 		.then((res) => handleResponse(res, dispatch, REQUEST_SUCCESS, REQUEST_FAIL))
 		.catch(error => console.log(error))
 }
 
-export const deleteConto = (id) => async (dispatch) => {
+export const updateAccount = (payload) => async (dispatch) => {
 	dispatch(START_REQUEST());
 	return axios
-		.delete(contoDeleteURL(id))
+		.put(accountURL, payload)
 		.then((res) => handleResponse(res, dispatch, REQUEST_SUCCESS, REQUEST_FAIL))
 		.catch(error => console.log(error))
 }
+
+export const deleteAccountItem = (id) => async (dispatch) => {
+	dispatch(START_REQUEST());
+	return axios
+		.delete(accountItemDeleteURL(id))
+		.then((res) => handleResponse(res, dispatch, REQUEST_SUCCESS, REQUEST_FAIL))
+		.catch(error => console.log(error))
+}
+
+// export const deleteaccount = (id) => async (dispatch) => {
+// 	dispatch(START_REQUEST());
+// 	return axios
+// 		.delete(accountDeleteURL(id))
+// 		.then((res) => handleResponse(res, dispatch, REQUEST_SUCCESS, REQUEST_FAIL))
+// 		.catch(error => console.log(error))
+// }
 
 const handleResponse = (res, dispatch, success, fail) => {
 	if (res !== undefined) {
@@ -70,10 +66,7 @@ const handleResponse = (res, dispatch, success, fail) => {
 			dispatch(success(res.data));
 			return res;
 		} else if (res.response !== undefined) {
-			if (res.response.status === 401) {
-				dispatch(fail(wrongCredentialsMessage));
-				dispatch(CLEAN_MESSAGE());
-			} else if (res.response.status >= 400 && res.response.status <= 499) {
+			if (res.response.status >= 400 && res.response.status <= 499) {
 				dispatch(fail(res.response.data.message));
 				dispatch(CLEAN_MESSAGE());
 			} else {
@@ -92,15 +85,13 @@ const handleResponse = (res, dispatch, success, fail) => {
 };
 
 const initState = {
-	contoClasses: [],
-	contos: [],
-	dropdown: [],
+	accounts: [],
 	pagination: null,
 	message: null,
 	loading: false
 };
 
-export const contoReducer = createReducer(initState, (builder) => {
+export const accountReducer = createReducer(initState, (builder) => {
 	builder
 		.addCase(START_REQUEST, (state, action) => {
 			state.loading = true
@@ -114,16 +105,8 @@ export const contoReducer = createReducer(initState, (builder) => {
 				totalPages: action.payload.totalPages,
 			}
 			state.loading = false
-			state.contos = action.payload.content
+			state.accounts = action.payload.content
 			state.pagination = pagination
-		})
-		.addCase(FETCH_SUCCESS_CLASSES, (state, action) => {
-			state.loading = false
-			state.contoClasses = action.payload
-		})
-		.addCase(FETCH_SUCCESS_DROPDOWN, (state, action) => {
-			state.loading = false
-			state.dropdown = action.payload
 		})
 		.addCase(REQUEST_SUCCESS, (state, action) => {
 			state.loading = false

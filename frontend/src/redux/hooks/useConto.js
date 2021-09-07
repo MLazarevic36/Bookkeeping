@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addConto, deleteConto, fetchContoClasses, fetchContosPageByContoPlan, updateConto } from "../reducers/contoReducer";
+import { addConto, deleteConto, fetchContoClasses, fetchContosDropdown, fetchContosPage, updateConto } from "../reducers/contoReducer";
 
 export default function useConto() {
 	
@@ -9,9 +9,14 @@ export default function useConto() {
 	const loading = useSelector((state) => state.conto.loading);
 	const pagination = useSelector((state) => state.conto.pagination);
 	const contoClasses = useSelector((state) => state.conto.contoClasses)
-	
-	const fetchContos = async (pageNumber, pageSize, contoPlanId) => {
-		dispatch(fetchContosPageByContoPlan(pageNumber, pageSize, contoPlanId));
+	const dropdown = useSelector((state) => state.conto.dropdown)
+
+	const fetchPage = async (pageNumber, pageSize, companyId) => {
+		dispatch(fetchContosPage(pageNumber, pageSize, companyId));
+	}
+
+	const fetchDropdown = async (companyId) => {
+		dispatch(fetchContosDropdown(companyId));
 	}
 
 	const fetchClasses = async () => {
@@ -34,10 +39,12 @@ export default function useConto() {
 		message,
 		loading,
 		contos,
+		dropdown,
 		pagination,
 		contoClasses,
-		fetchContos,
 		fetchClasses,
+		fetchPage,
+		fetchDropdown,
 		add,
 		update,
 		remove
