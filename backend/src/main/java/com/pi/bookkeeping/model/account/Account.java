@@ -1,6 +1,7 @@
 package com.pi.bookkeeping.model.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pi.bookkeeping.model.company.Company;
 import com.pi.bookkeeping.model.company.CompanyDivision;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,17 +25,24 @@ public class Account implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="company_division_id")
-    @JsonIgnore
     private CompanyDivision companyDivision;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="company_id")
+    private Company company;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_type", nullable = false)
     private AccountType accountType;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "account_status", nullable = false)
+    private AccountStatus accountStatus;
+
     @Column(name = "account_date")
     private Date accountDate;
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @Column
     private List<AccountItem> accountItems;
 

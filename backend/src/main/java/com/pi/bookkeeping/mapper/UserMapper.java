@@ -19,6 +19,9 @@ public class UserMapper {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private EmployeeMapper employeeMapper;
+
     public UserDTO convertToDto(User user) {
         return modelMapper.map(user, UserDTO.class);
     }
@@ -29,7 +32,7 @@ public class UserMapper {
                 userPrincipal.getUsername(),
                 userPrincipal.getPassword(),
                 Role.valueOf(userPrincipal.getAuthority().toString()),
-                userPrincipal.getEmployee());
+                employeeMapper.convertToDto(userPrincipal.getEmployee()));
     }
 
     public List<UserDTO> convertToDtos(Page<User> contoPage) {

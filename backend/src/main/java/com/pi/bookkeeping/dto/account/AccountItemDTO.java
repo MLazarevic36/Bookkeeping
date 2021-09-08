@@ -18,13 +18,14 @@ import java.util.Date;
 public class AccountItemDTO implements Serializable {
 
     private Long id;
-    private String contoLabel;
-    private String contoDescription;
-    private AccountDTO account;
-    private String partner;
+    private Long conto;
+    private Long partner;
+    private String description;
     private Long owesAmount;
     private Long requiresAmount;
-    private String document_number;
+    private Long documentNumber;
     private Date documentDate;
     private Date currencyDate;
+    private Long account;
+    private Long saldo;
 }

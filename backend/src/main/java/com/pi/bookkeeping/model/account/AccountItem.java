@@ -1,7 +1,7 @@
 package com.pi.bookkeeping.model.account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pi.bookkeeping.model.company.Company;
+import com.pi.bookkeeping.model.company.CompanyPartner;
+import com.pi.bookkeeping.model.conto.Conto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,19 +21,20 @@ public class AccountItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "conto_label", nullable = false)
-    private String contoLabel;
-
-    @Column(name = "conto_description", nullable = false)
-    private String contoDescription;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="conto_id")
+    private Conto conto;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="account_id")
-    @JsonIgnore
     private Account account;
 
-    @Column(name = "partner", nullable = false)
-    private String partner;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="company_partner_id")
+    private CompanyPartner companyPartner;
+
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @Column(name = "owes_amount", nullable = false)
     private Long owesAmount;
@@ -42,13 +43,16 @@ public class AccountItem implements Serializable {
     private Long requiresAmount;
 
     @Column(name = "document_number", nullable = false)
-    private String document_number;
+    private Long documentNumber;
 
     @Column(name = "document_date")
     private Date documentDate;
 
     @Column(name = "currency_date")
     private Date currencyDate;
+
+    @Column(name = "saldo")
+    private Long saldo;
 
 
 

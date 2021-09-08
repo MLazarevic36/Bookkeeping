@@ -17,11 +17,13 @@ import java.util.List;
 public class AccountDTO implements Serializable {
 
     private Long id;
-    private CompanyDivisionDTO companyDivision;
+    private Long company;
+    private Long companyDivision;
     private String accountType;
+    private String accountStatus;
     private Date accountDate;
     private List<AccountItemDTO> accountItems;
-    private Long owesAmountTotal;
-    private Long requiresAmountTotal;
+    private String owesAmountTotal;
+    private String requiresAmountTotal;
     private Long saldo;
 }

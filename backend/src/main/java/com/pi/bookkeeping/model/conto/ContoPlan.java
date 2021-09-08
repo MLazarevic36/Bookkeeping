@@ -1,5 +1,6 @@
 package com.pi.bookkeeping.model.conto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pi.bookkeeping.model.company.Company;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

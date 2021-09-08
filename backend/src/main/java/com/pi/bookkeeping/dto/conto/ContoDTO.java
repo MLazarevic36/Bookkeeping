@@ -18,7 +18,6 @@ public class ContoDTO implements Serializable {
     private String description;
     private String status;
     private String type;
-    @JsonIgnore
-    private ContoPlanDTO contoPlan;
+    private Long contoPlan;
 
 }

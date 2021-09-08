@@ -1,12 +1,15 @@
 package com.pi.bookkeeping.controller.conto;
 
+import com.pi.bookkeeping.dto.Message;
 import com.pi.bookkeeping.dto.PagedResponse;
+import com.pi.bookkeeping.dto.company.CompanyDivisionDTO;
 import com.pi.bookkeeping.dto.conto.ContoClassDTO;
 import com.pi.bookkeeping.dto.conto.ContoDTO;
 import com.pi.bookkeeping.dto.conto.ContoPlanDTO;
 import com.pi.bookkeeping.mapper.conto.ContoClassMapper;
 import com.pi.bookkeeping.mapper.conto.ContoMapper;
 import com.pi.bookkeeping.mapper.conto.ContoPlanMapper;
+import com.pi.bookkeeping.model.company.CompanyDivision;
 import com.pi.bookkeeping.model.conto.Conto;
 import com.pi.bookkeeping.model.conto.ContoClass;
 import com.pi.bookkeeping.model.conto.ContoPlan;
@@ -18,10 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,35 +42,34 @@ public class ContoController {
     private ContoClassMapper contoClassMapper;
 
     @Autowired
-    private ContoPlanMapper contoPlanMapper;
-
-    @Autowired
     private ContoPlanService contoPlanService;
 
-    @GetMapping(value = "/plan/{contoPlanId}")
-    public PagedResponse<ContoDTO> getContos(Pageable pageable, @PathVariable("contoPlanId") Long id) {
 
-            Page<Conto> contos = contoService.findAllByPlanId(pageable, id);
+    @GetMapping(value = "/page/{companyId}")
+    public PagedResponse<ContoDTO> getContosPage(Pageable pageable, @PathVariable("companyId") Long id) {
 
-            return new PagedResponse<ContoDTO>(
+            Page<Conto> contos = contoService.findAllByCompanyPage(pageable, id);
+
+            return new PagedResponse<>(
                     contoMapper.convertToDtos(contos),
-                    contos.getPageable().getPageNumber(),
-                    contos.getPageable().getPageSize(),
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
                     contos.getTotalElements(),
                     contos.getTotalPages());
     }
 
-//    @GetMapping(value = "/plan/{id}")
-//    public ResponseEntity<ContoPlanDTO> getContoPlanByCompany(@PathVariable("id") Long id) {
-//        try {
-//            ContoPlan contoPlan = contoPlanService.findByCompany(id);
-//            return new ResponseEntity<>(contoPlanMapper.convertToDto(contoPlan),
-//                    HttpStatus.OK);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @GetMapping(value = "/dropdown/{companyId}")
+    public ResponseEntity<List<ContoDTO>> getContosList(@PathVariable("companyId") Long companyId) {
+        try {
+            List<Conto> contos = contoService.findAllByCompanyList(companyId);
+            return new ResponseEntity<>(contoMapper.convertToDtosList(contos), HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 
     @GetMapping(value = "/classes")
     public ResponseEntity<List<ContoClassDTO>> getContoClasses(Pageable pageable) {
@@ -81,6 +80,43 @@ public class ContoController {
         } catch (Exception ex) {
             ex.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<Message> addConto(@RequestBody ContoDTO contoDTO) {
+        ContoPlan contoPlan = contoPlanService.findByCompany(contoDTO.getContoPlan());
+        contoDTO.setContoPlan(contoPlan.getId());
+        Conto conto = contoMapper.convertToEntity(contoDTO);
+        try {
+            conto = contoService.save(conto);
+            return new ResponseEntity<>(new Message("Uspešno ste dodali konto u kontni plan.","success"), HttpStatus.OK);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(new Message("Doslo je do greske!","error"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<Message> updateConto(@RequestBody ContoDTO contoDTO) {
+        Conto conto = contoMapper.convertToEntity(contoDTO);
+        try {
+            conto = contoService.update(conto);
+            return new ResponseEntity<>(new Message("Uspešno ste izmenili konto.","success"), HttpStatus.OK);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(new Message("Doslo je do greske!","error"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Message> deleteConto(@PathVariable("id") Long id) {
+        try {
+            contoService.delete(id);
+            return new ResponseEntity<>(new Message("Uspešno ste obrisali konto.","success"), HttpStatus.OK);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(new Message("Doslo je do greske!","error"), HttpStatus.BAD_REQUEST);
         }
     }
 }

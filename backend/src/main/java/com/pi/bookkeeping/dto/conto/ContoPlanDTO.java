@@ -16,8 +16,7 @@ import java.util.List;
 public class ContoPlanDTO {
 
     private Long id;
-    @JsonIgnore
-    private CompanyDTO company;
+    private Long company;
     private List<ContoDTO> contos;
 
 }

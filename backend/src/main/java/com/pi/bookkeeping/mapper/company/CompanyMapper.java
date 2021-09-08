@@ -1,6 +1,7 @@
 package com.pi.bookkeeping.mapper.company;
 
 import com.pi.bookkeeping.dto.company.CompanyDTO;
+import com.pi.bookkeeping.mapper.EmployeeMapper;
 import com.pi.bookkeeping.model.company.Company;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,28 @@ public class CompanyMapper {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private EmployeeMapper employeeMapper;
+
+    @Autowired
+    private CompanyDivisionMapper companyDivisionMapper;
+
     public CompanyDTO convertToDto(Company company) {
-        return modelMapper.map(company, CompanyDTO.class);
+        CompanyDTO companyDTO = new CompanyDTO();
+        companyDTO.setId(company.getId());
+        companyDTO.setName(company.getName());
+        companyDTO.setEmployees(employeeMapper.convertToDtos(company.getEmployees()));
+        companyDTO.setCompanyDivisions(companyDivisionMapper.convertToDtosList(company.getCompanyDivisions()));
+        companyDTO.setContoPlan(company.getContoPlan().getId());
+        return companyDTO;
     }
 
     public List<CompanyDTO> convertToDtos(Page<Company> companyPage) {
         return companyPage.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    public List<CompanyDTO> convertToDtosList(List<Company> companyList) {
+        return companyList.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     public Company convertToEntity(CompanyDTO companyDTO) {
