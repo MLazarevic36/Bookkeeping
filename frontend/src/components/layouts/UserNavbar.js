@@ -32,44 +32,14 @@ const UserNavbar = ({ children }) => {
 						<p className="nav-title">Glavna knjiga</p>
 					</Link>
 					<Link
-                        to="/config/bsa-weight"
+                        to="/reports"
                         className="nav-buttons"
                         title="Izvestaji"
                         >
 						<p className="nav-title">Izvestaji</p>
 					</Link>
                 </div>
-                <div className="nav-center">
-                    {/* <Link to="/calculator" className="nav-buttons" title="Calculator">
-                        <CalculateIcon />
-                        <p className="nav-title">Calculator</p>
-                    </Link>
-
-                    {hook.showBsaWeight && (
-                        
-                    )}
-                    {hook.showCurrencyRate && (
-                        <Link
-                            to="/config/currency-rates"
-                            className="nav-buttons"
-                            title="Currency rates"
-                        >
-                            <CurrencyIcon />
-                            <p className="nav-title">Currency rates</p>
-                        </Link>
-                    )}
-                    {hook.showDosagePattern && (
-                        <Link to="/dosage-pattern" className="nav-buttons" title="Dosage pattern">
-                            <DosagePattern />
-                            <p className="nav-title">Dosage pattern</p>
-                        </Link>
-                    )} */}
-                </div>
                 <div className="nav-right">
-                    {/* <Link to="/profile" className="nav-buttons" title="Profile">
-                        <ProfileIcon />
-                        <p className="nav-title">Profile</p>
-                    </Link>*/}
 					<div className="nav-buttons" title="Logout">
                         <button className="nav-title" onClick={() => hook.signout()}>Logout</button>
                     </div>

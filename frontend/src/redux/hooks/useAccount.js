@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addAccount, creditAccount, deleteAccountItem, fetchAccountsPage, updateAccount } from "../reducers/accountReducer";
+import { addAccount, cancelAccount, creditAccount, deleteAccount, deleteAccountItem, fetchAccountsDropdown, fetchAccountsPage, updateAccount } from "../reducers/accountReducer";
 
 export default function useAccount() {
 	
@@ -8,9 +8,14 @@ export default function useAccount() {
 	const message = useSelector((state) => state.account.message);
 	const loading = useSelector((state) => state.account.loading);
 	const pagination = useSelector((state) => state.account.pagination);
+	const dropdown = useSelector((state) => state.account.dropdown)
 
 	const fetchPage = async (pageNumber, pageSize, companyId) => {
 		dispatch(fetchAccountsPage(pageNumber, pageSize, companyId));
+	}
+
+	const fetchDropdown = async (companyId) => {
+		dispatch(fetchAccountsDropdown(companyId));
 	}
 
 	const add = async (payload) => {
@@ -21,13 +26,17 @@ export default function useAccount() {
 		return dispatch(creditAccount(id))
 	}
 
+	const cancel = async (id) => {
+		return dispatch(cancelAccount(id))
+	}
+
 	const update = async (payload) => {
 		return dispatch(updateAccount(payload))
 	}
 
-	// const remove = async (id) => {
-	// 	return dispatch(deleteConto(id))
-	// }
+	const remove = async (id) => {
+		return dispatch(deleteAccount(id))
+	}
 
 	const deleteItem = async (id) => {
 		return dispatch(deleteAccountItem(id))
@@ -38,11 +47,14 @@ export default function useAccount() {
 		loading,
 		accounts,
 		pagination,
+		dropdown,
+		fetchDropdown,
 		fetchPage,
 		credit,
+		cancel,
 		add,
 		update,
 		deleteItem,
-		// remove
+		remove
 	};
 }

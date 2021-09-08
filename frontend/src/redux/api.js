@@ -26,7 +26,13 @@ const items = "/items"
 export const accountURL = accounts
 export const accountPageURL = (pageNumber, pageSize, companyId) => `${accounts}/page/${companyId}?page=${pageNumber}&size=${pageSize}`
 export const creditAccountURL = (id) => `${accounts}/credit/${id}`
+export const cancelAccountURL = (id) => `${accounts}/cancel/${id}`
+export const accountDeleteURL = (id) => `${accounts}/${id}`
 export const accountItemDeleteURL = (id) => `${accounts}${items}/${id}`
+export const accountDropdownURL = (companyId) => `${accounts}/dropdown/${companyId}`
 
 const mainBook = "/main-book"
 export const mainBookPageURL = (pageNumber, pageSize, companyId) =>  `${mainBook}/page/${companyId}?page=${pageNumber}&size=${pageSize}`
+
+const report = "/reports"
+export const reportAnalyticCardURL = report + "/analytic-card"

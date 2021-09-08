@@ -11,10 +11,19 @@ import {
 } from "@chakra-ui/modal"
 import React, { useRef } from "react"
 
-const DeleteModal = ({ remove, text }) => {
+const DeleteModal = ({ remove, text, fetch }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = useRef()
+
+	const handleDelete = () => {
+		remove().then((res) => {
+			if(res !== undefined && res.status === 200) {
+				fetch()
+				onClose()
+			}
+		})
+	}
 
     return (
         <>
@@ -40,7 +49,7 @@ const DeleteModal = ({ remove, text }) => {
                         <Button ref={cancelRef} onClick={onClose} variant="medium">
                             Ne
                         </Button>
-                        <Button variant="red" ml={3} onClick={() => remove()}>
+                        <Button variant="red" ml={3} onClick={() => handleDelete()}>
                             Da
                         </Button>
                     </AlertDialogFooter>

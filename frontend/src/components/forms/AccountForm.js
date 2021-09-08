@@ -14,8 +14,9 @@ import useForms from "../../redux/hooks/useForms"
 import { NumberInput, NumberDecrementStepper, NumberIncrementStepper, NumberInputField,  NumberInputStepper} from "@chakra-ui/number-input"
 import useConto from "../../redux/hooks/useConto"
 import useCompany from "../../redux/hooks/useCompany"
-import { typeAccountOptions } from "../../utils/strings"
+import { defaultSize, typeAccountOptions } from "../../utils/strings"
 import useAccount from "../../redux/hooks/useAccount"
+import useUser from "../../redux/hooks/useUser"
 
 const AccountForm = ({ submit, close, updateData, selectData }) => {
 
@@ -25,6 +26,7 @@ const AccountForm = ({ submit, close, updateData, selectData }) => {
 	const hookConto = useConto()
 	const hookCompany = useCompany()
 	const hookAccount = useAccount()
+	const hookUser = useUser()
 	
 	const validationSchema = yup.object().shape({
         // company_division: yup.string()
@@ -75,7 +77,11 @@ const AccountForm = ({ submit, close, updateData, selectData }) => {
 
 	const handleDeleteItem = (index, id) => {
 		if(id) {
-			hookAccount.deleteItem(id)
+			hookAccount.deleteItem(id).then((res) => {
+				if(res !== undefined && res.status === 200) {
+					hookAccount.fetchPage(0, defaultSize, hookUser.employee.company)
+				}
+			})
 		}
 		hook.removeItem(index)
 	}

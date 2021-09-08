@@ -27,6 +27,10 @@ const AccountTable = ({data, pagination, selectData}) => {
 
 	const columns = [
 		{
+			dataField: "id",
+			text: "Broj naloga"
+		},
+		{
             dataField: "companyDivision",
             text: "Poslovna jedinica",
 			formatter: (cell) => {
@@ -112,18 +116,26 @@ const AccountTable = ({data, pagination, selectData}) => {
 	const expandRow = {
         renderer: (row) => (
             <div className="btns-container">
-				{	row.accountStatus === "READY_FOR_CREDIT" && <CustomButton type="update" text="PROKNJIZI" onClick={() => hook.credit(row.id)} /> }
+				{	row.accountStatus === "READY_FOR_CREDIT" && <CustomButton type="update" text="PROKNJIŽI" onClick={() => handleCredit(row.id)} /> }
 						
                 {	row.accountStatus === "READY_FOR_CREDIT" ? 
 						<>
-							<DeleteModal text="OBRISI" remove={() => handleDelete(row.id)} />
+							<DeleteModal 
+								text="OBRIŠI" 
+								remove={() => hook.remove(row.id)} 
+								fetch={() => hook.fetchPage(0, defaultSize, hookUser.employee.company)} 
+							/>
 							<CustomButton type="update" text="IZMENI" onClick={() => handleUpdateModal(row)}/>
 						</>
-						: 
+						:  row.accountStatus === "CREDITED" ?
 						<>
-							<DeleteModal text="STORNIRAJ" remove={() => handleDelete(row.id)} />
-							<CustomButton type="update"  text="VIDI STAVKE" onClick={() => handleUpdateModal(row)}/>
-						</>
+							{/* <CustomButton type="update"  text="VIDI STAVKE" onClick={() => handleUpdateModal(row)}/> */}
+							<DeleteModal 
+								text="STORNIRAJ" 
+								remove={() => hook.cancel(row.id)} 
+								fetch={() => hook.fetchPage(0, defaultSize, hookUser.employee.company)} 
+							/>
+						</> : <></>
 						}
 
             </div>
@@ -132,15 +144,21 @@ const AccountTable = ({data, pagination, selectData}) => {
         parentClassName: "parentExpandedRow",
     }
 
-	const handleDelete = (id) => {
-		// hook.remove(id).then((res) => {
-		// 	if(res !== undefined && res.status === 200) {
-		// 		onClose()
-		// 		hook.fetchContos(0, defaultSize, hookUser.employee.company)
-		// 	}
-		// })
+	// const handleDelete = (id) => {
+	// 	hook.remove(id).then((res) => {
+	// 		if(res !== undefined && res.status === 200) {
+	// 			onClose()
+				
+	// 		}
+	// 	})
+	// }
 
-		//hook.cancel
+	const handleCredit = (id) => {
+		hook.credit(id).then((res) => {
+			if(res !== undefined && res.status === 200) {
+				hook.fetchPage(0, defaultSize, hookUser.employee.company)
+			}
+		})
 	}
 
 	const submit = (data) => {

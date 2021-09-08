@@ -20,6 +20,11 @@ export const typeExtract = "EXTRACT"
 export const statusActive = "ACTIVE"
 export const statusInactive = "INACTIVE"
 
+export const reportCreditAccount = "CREDITED_ACCOUNT"
+export const reportGrossBalanceSheet = "GROSS_BALANCE_SHEET"
+export const reportAnalyticCard = "ANALYTIC_CARD"
+export const reportContoPlan = "CONTO_PLAN"
+
 
 export const typeContoOptions = [
 	{label: "ANALITIČKI", value: typeAnalytic}, 
@@ -34,4 +39,11 @@ export const statusOptions = [
 export const typeAccountOptions = [
 	{label: "KALKULACIJA", value: typeCalculation}, 
 	{label: "IZVOD", value: typeExtract}
+]
+
+export const reportOptions = [
+	{label: "NALOG ZA KNJIŽENJE", value: reportCreditAccount},
+	{label: "KARTICA KONTA SA ANALITIKOM", value: reportAnalyticCard},
+	{label: "KONTNI PLAN", value: reportContoPlan},
+	{label: "BRUTO BILANS", value: reportGrossBalanceSheet},
 ]

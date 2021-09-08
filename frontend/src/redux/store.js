@@ -6,6 +6,7 @@ import { companyReducer } from "./reducers/companyReducer";
 import { contoReducer } from "./reducers/contoReducer";
 import { formReducer } from "./reducers/formReducer";
 import { mainBookReducer } from "./reducers/mainBookReducer";
+import { reportReducer } from "./reducers/reportReducer";
 import { userReducer } from "./reducers/userReducer";
 
 const persistConfig = {
@@ -20,7 +21,8 @@ const reducer = combineReducers({
 	form: formReducer,
 	company: companyReducer,
 	account: accountReducer,
-	mainBook: mainBookReducer
+	mainBook: mainBookReducer,
+	report: reportReducer
 });
 
 const rootReducer = (state, action) => {

@@ -3,6 +3,7 @@ import HomePage from "../pages/HomePage";
 import ContoPlanPage from "../pages/ContoPage";
 import AccountPage from "../pages/AccountPage";
 import MainBookPage from "../pages/MainBookPage";
+import ReportPage from "../pages/ReportPage";
 
 const routes = [
 	{
@@ -28,6 +29,11 @@ const routes = [
 	{
 		path: "/main-book",
 		component: MainBookPage,
+		isPrivate: false
+	},
+	{
+		path: "/reports",
+		component: ReportPage,
 		isPrivate: false
 	}
 	

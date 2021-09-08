@@ -1,4 +1,4 @@
-import { accountItemDeleteURL, accountPageURL, accountURL, creditAccountURL } from "../api"
+import { accountDeleteURL, accountDropdownURL, accountItemDeleteURL, accountPageURL, accountURL, cancelAccountURL, creditAccountURL } from "../api"
 import { createAction, createReducer } from "@reduxjs/toolkit"
 import axios from "axios"
 import {
@@ -7,6 +7,7 @@ import {
 
 const START_REQUEST = createAction("ACCOUNT/START_REQUEST")
 const FETCH_SUCCESS = createAction("ACCOUNT/FETCH_SUCCESS")
+const FETCH_SUCCESS_DROPDOWN = createAction("ACCOUNT/FETCH_SUCCESS_DROPDOWN")
 const REQUEST_FAIL = createAction("ACCOUNT/REQUEST_FAIL")
 const REQUEST_SUCCESS = createAction("ACCOUNT/REQUEST_SUCCESS")
 const CLEAN_MESSAGE = createAction("ACCOUNT/CLEAN_MESSAGE")
@@ -19,11 +20,27 @@ export const fetchAccountsPage = (pageNumber, pageSize, accountPlanId) => async 
 		.catch(error => console.log(error))
 }
 
+export const fetchAccountsDropdown = (companyId) => async (dispatch) => {
+	dispatch(START_REQUEST());
+	return axios
+		.get(accountDropdownURL(companyId))
+		.then((res) => handleResponse(res, dispatch, FETCH_SUCCESS_DROPDOWN, REQUEST_FAIL))
+		.catch(error => console.log(error))
+}
+
 
 export const addAccount = (payload) => async (dispatch) => {
 	dispatch(START_REQUEST());
 	return axios
 		.post(accountURL, payload)
+		.then((res) => handleResponse(res, dispatch, REQUEST_SUCCESS, REQUEST_FAIL))
+		.catch(error => console.log(error))
+}
+
+export const cancelAccount = (id) => async (dispatch) => {
+	dispatch(START_REQUEST());
+	return axios
+		.put(cancelAccountURL(id), {})
 		.then((res) => handleResponse(res, dispatch, REQUEST_SUCCESS, REQUEST_FAIL))
 		.catch(error => console.log(error))
 }
@@ -52,13 +69,13 @@ export const deleteAccountItem = (id) => async (dispatch) => {
 		.catch(error => console.log(error))
 }
 
-// export const deleteaccount = (id) => async (dispatch) => {
-// 	dispatch(START_REQUEST());
-// 	return axios
-// 		.delete(accountDeleteURL(id))
-// 		.then((res) => handleResponse(res, dispatch, REQUEST_SUCCESS, REQUEST_FAIL))
-// 		.catch(error => console.log(error))
-// }
+export const deleteAccount = (id) => async (dispatch) => {
+	dispatch(START_REQUEST());
+	return axios
+		.delete(accountDeleteURL(id))
+		.then((res) => handleResponse(res, dispatch, REQUEST_SUCCESS, REQUEST_FAIL))
+		.catch(error => console.log(error))
+}
 
 const handleResponse = (res, dispatch, success, fail) => {
 	if (res !== undefined) {
@@ -86,6 +103,7 @@ const handleResponse = (res, dispatch, success, fail) => {
 
 const initState = {
 	accounts: [],
+	dropdown: [],
 	pagination: null,
 	message: null,
 	loading: false
@@ -107,6 +125,10 @@ export const accountReducer = createReducer(initState, (builder) => {
 			state.loading = false
 			state.accounts = action.payload.content
 			state.pagination = pagination
+		})
+		.addCase(FETCH_SUCCESS_DROPDOWN, (state, action) => {
+			state.loading = false
+			state.dropdown = action.payload
 		})
 		.addCase(REQUEST_SUCCESS, (state, action) => {
 			state.loading = false
