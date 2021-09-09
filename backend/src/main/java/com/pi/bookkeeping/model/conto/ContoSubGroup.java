@@ -1,9 +1,6 @@
 package com.pi.bookkeeping.model.conto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pi.bookkeeping.model.conto.ContoGroup;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

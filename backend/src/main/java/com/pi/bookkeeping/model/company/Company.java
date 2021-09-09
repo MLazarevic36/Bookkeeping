@@ -1,14 +1,11 @@
 package com.pi.bookkeeping.model.company;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pi.bookkeeping.model.Employee;
 import com.pi.bookkeeping.model.account.Account;
 import com.pi.bookkeeping.model.conto.ContoPlan;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;

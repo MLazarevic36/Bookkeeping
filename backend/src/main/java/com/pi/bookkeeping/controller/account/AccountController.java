@@ -3,6 +3,7 @@ package com.pi.bookkeeping.controller.account;
 import com.pi.bookkeeping.dto.Message;
 import com.pi.bookkeeping.dto.PagedResponse;
 import com.pi.bookkeeping.dto.account.AccountDTO;
+import com.pi.bookkeeping.dto.account.AccountDropdownDTO;
 import com.pi.bookkeeping.mapper.account.AccountItemMapper;
 import com.pi.bookkeeping.mapper.account.AccountMapper;
 import com.pi.bookkeeping.model.account.Account;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -31,16 +34,16 @@ public class AccountController {
     @Autowired
     private AccountItemMapper accountItemMapper;
 
-
-//    @GetMapping(value = "/{id}")
-//    public ResponseEntity<CompanyDTO> getCompany(@PathVariable("id") LoMessage{
-//        try   AccountDTOany company = companyService.findOne(id);
-//            return new ResponseEntity<>(companyMapper.convertToDto(company), HttpStatus.OK);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<AccountDTO> getCompany(@PathVariable("id") Long id){
+        Account account = accountService.findOne(id);
+        try {
+            return new ResponseEntity<>(accountMapper.convertToDto(account), HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     @GetMapping(value = "/page/{companyId}")
     public PagedResponse<AccountDTO> getAccountsPage(Pageable pageable, @PathVariable("companyId") Long id) {
 
@@ -52,6 +55,14 @@ public class AccountController {
                 pageable.getPageSize(),
                 accounts.getTotalElements(),
                 accounts.getTotalPages());
+    }
+
+    @GetMapping(value = "/dropdown/{companyId}")
+    public ResponseEntity<List<AccountDropdownDTO>> getAccountsDropdown(@PathVariable("companyId") Long id) {
+
+        List<Account> accounts = accountService.findAllByCompanyAndNotCredited(id);
+
+        return new ResponseEntity<>(accountMapper.convertToDtosDropdown(accounts), HttpStatus.OK);
     }
 
     @PostMapping
@@ -89,6 +100,18 @@ public class AccountController {
         }
     }
 
+    @PutMapping(value = "/cancel/{id}")
+    public ResponseEntity<Message> cancelAccount(@PathVariable("id") Long id) {
+        Account account = accountService.findOne(id);
+        try {
+            accountService.cancel(account);
+            return new ResponseEntity<>(new Message("Uspešno ste stornirali nalog.","success"), HttpStatus.OK);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(new Message("Doslo je do greske!","error"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PutMapping
     public ResponseEntity<Message> updateAccount(@RequestBody AccountDTO accountDTO) {
         Account account = accountMapper.convertToEntity(accountDTO);
@@ -101,16 +124,16 @@ public class AccountController {
         }
     }
 
-//    @DeleteMapping(value = "/{id}")
-//    public ResponseEntity<Message> deleteAccount(@PathVariable("id") Long id) {
-//        try {
-//            accountService.delete(id);
-//            return new ResponseEntity<>(new Message("Uspešno ste obrisali konto.","success"), HttpStatus.OK);
-//        }catch (Exception ex) {
-//            ex.printStackTrace();
-//            return new ResponseEntity<>(new Message("Doslo je do greske!","error"), HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Message> deleteAccount(@PathVariable("id") Long id) {
+        try {
+            accountService.delete(id);
+            return new ResponseEntity<>(new Message("Uspešno ste obrisali nalog.","success"), HttpStatus.OK);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(new Message("Doslo je do greske!","error"), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @DeleteMapping(value = "/items/{id}")
     public ResponseEntity<Message> deleteAccountItem(@PathVariable("id") Long id) {

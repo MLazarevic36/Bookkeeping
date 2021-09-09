@@ -1,6 +1,7 @@
 package com.pi.bookkeeping.mapper.account;
 
 import com.pi.bookkeeping.dto.account.AccountDTO;
+import com.pi.bookkeeping.dto.account.AccountDropdownDTO;
 import com.pi.bookkeeping.dto.account.AccountItemDTO;
 import com.pi.bookkeeping.model.account.Account;
 import com.pi.bookkeeping.model.account.AccountStatus;
@@ -45,10 +46,26 @@ public class AccountMapper {
 
         return accountDTO;
     }
+    public AccountDropdownDTO convertToDtoDropdown(Account account) {
+
+        AccountDropdownDTO accountDTO = new AccountDropdownDTO();
+        accountDTO.setId(account.getId());
+
+        return accountDTO;
+    }
+
 
     public List<AccountDTO> convertToDtos(Page<Account> accountPage) {
         return accountPage.stream().map(this::convertToDto).collect(Collectors.toList());
     }
+
+    public List<AccountDTO> convertToDtosList(List<Account> accountPage) {
+        return accountPage.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+    public List<AccountDropdownDTO> convertToDtosDropdown(List<Account> accountList) {
+        return accountList.stream().map(this::convertToDtoDropdown).collect(Collectors.toList());
+    }
+
 
     public Account convertToEntityNaked(AccountDTO accountDTO) {
         Company company = companyService.findOne(accountDTO.getCompany());

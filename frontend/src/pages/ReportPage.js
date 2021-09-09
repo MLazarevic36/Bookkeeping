@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import CustomButton from "../components/CustomButton";
 import Layout from "../components/layouts/Layout";
+import AccountDetail from "../components/reports/AccountDetail";
 import AnalyticCardReport from "../components/reports/AnalyticCardReport";
 import SelectDropdown from "../components/SelectDropdown";
 import useAccount from "../redux/hooks/useAccount";
@@ -26,6 +27,7 @@ const ReportPage = () => {
 	const [contoOptions, setContoOptions] = useState([])
 	const [accountOptions, setAccountOptions] = useState([])
 	const [analyticCardResponse, setAnalyticCardResponse] = useState(null)
+	const [detailAccount, setDetailAccount] = useState(null)
 
 	useEffect(() => {
 		hookAccount.fetchDropdown(hookUser.employee.company)
@@ -52,7 +54,15 @@ const ReportPage = () => {
 
 			hook.generateACReport(payload).then((res) => {
 				if(res !== undefined && res.status === 200) {
+					setDetailAccount(null)
 					setAnalyticCardResponse(res.data)
+				}
+			})
+		}else if(selectedReport === reportCreditAccount) {
+			hookAccount.fetchOne(selectedAccount).then((res) => {
+				if(res !== undefined && res.status === 200) {
+					setAnalyticCardResponse(null)
+					setDetailAccount(res.data)
 				}
 			})
 		}
@@ -110,7 +120,8 @@ const ReportPage = () => {
 		</Flex>
 		<Flex justify="center" align="center" h="370px">
 			{
-				analyticCardResponse && <AnalyticCardReport response={analyticCardResponse} />
+				analyticCardResponse ? <AnalyticCardReport response={analyticCardResponse} /> :
+				detailAccount ? <AccountDetail response={detailAccount} /> : null
 			}
 		</Flex>
 

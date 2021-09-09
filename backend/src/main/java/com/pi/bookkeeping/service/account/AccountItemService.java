@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -23,7 +24,7 @@ public class AccountItemService implements AccountItemInterface {
 
     @Override
     public AccountItem findOne(Long id) {
-        return accountItemRepo.getOne(id);
+        return accountItemRepo.getById(id);
     }
 
     @Override
@@ -42,8 +43,9 @@ public class AccountItemService implements AccountItemInterface {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
-        accountItemRepo.deleteById(id);
+        accountItemRepo.deleteAccountItemById(id);
     }
 
     public void deleteAllByContoId(Long id) {

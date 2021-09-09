@@ -53,6 +53,7 @@ public class AccountItemMapper {
         return accountItemPage.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
+
     public List<AccountItemDTO> convertToDtosList(List<AccountItem> accountItemList) {
         return accountItemList.stream().map(this::convertToDto).collect(Collectors.toList());
     }

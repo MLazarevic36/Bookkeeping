@@ -1,20 +1,17 @@
-package com.pi.bookkeeping.dto.conto;
+package com.pi.bookkeeping.dto.report;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class ContoPlanDTO {
+public class AccountResponse {
 
     private Long id;
-    private Long company;
-    private List<ContoDTO> contos;
+
 
 }

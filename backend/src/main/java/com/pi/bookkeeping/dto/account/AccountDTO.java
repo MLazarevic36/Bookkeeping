@@ -1,6 +1,5 @@
 package com.pi.bookkeeping.dto.account;
 
-import com.pi.bookkeeping.dto.company.CompanyDivisionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,4 +25,5 @@ public class AccountDTO implements Serializable {
     private String owesAmountTotal;
     private String requiresAmountTotal;
     private Long saldo;
+
 }

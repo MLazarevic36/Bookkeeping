@@ -1,4 +1,4 @@
-import { accountDeleteURL, accountDropdownURL, accountItemDeleteURL, accountPageURL, accountURL, cancelAccountURL, creditAccountURL } from "../api"
+import { accountDeleteURL, accountDropdownURL, accountItemDeleteURL, accountPageURL, accountSingleURL, accountURL, cancelAccountURL, creditAccountURL } from "../api"
 import { createAction, createReducer } from "@reduxjs/toolkit"
 import axios from "axios"
 import {
@@ -8,6 +8,7 @@ import {
 const START_REQUEST = createAction("ACCOUNT/START_REQUEST")
 const FETCH_SUCCESS = createAction("ACCOUNT/FETCH_SUCCESS")
 const FETCH_SUCCESS_DROPDOWN = createAction("ACCOUNT/FETCH_SUCCESS_DROPDOWN")
+const FETCH_SUCCESS_DETAIL = createAction("ACCOUNT/FETCH_SUCCESS_DETAIL")
 const REQUEST_FAIL = createAction("ACCOUNT/REQUEST_FAIL")
 const REQUEST_SUCCESS = createAction("ACCOUNT/REQUEST_SUCCESS")
 const CLEAN_MESSAGE = createAction("ACCOUNT/CLEAN_MESSAGE")
@@ -25,6 +26,14 @@ export const fetchAccountsDropdown = (companyId) => async (dispatch) => {
 	return axios
 		.get(accountDropdownURL(companyId))
 		.then((res) => handleResponse(res, dispatch, FETCH_SUCCESS_DROPDOWN, REQUEST_FAIL))
+		.catch(error => console.log(error))
+}
+
+export const fetchOneAccount = (accountId) => async (dispatch) => {
+	dispatch(START_REQUEST());
+	return axios
+		.get(accountSingleURL(accountId))
+		.then((res) => handleResponse(res, dispatch, FETCH_SUCCESS_DETAIL, REQUEST_FAIL))
 		.catch(error => console.log(error))
 }
 
@@ -72,7 +81,7 @@ export const deleteAccountItem = (id) => async (dispatch) => {
 export const deleteAccount = (id) => async (dispatch) => {
 	dispatch(START_REQUEST());
 	return axios
-		.delete(accountDeleteURL(id))
+		.delete(accountSingleURL(id))
 		.then((res) => handleResponse(res, dispatch, REQUEST_SUCCESS, REQUEST_FAIL))
 		.catch(error => console.log(error))
 }
@@ -104,6 +113,7 @@ const handleResponse = (res, dispatch, success, fail) => {
 const initState = {
 	accounts: [],
 	dropdown: [],
+	detail: null,
 	pagination: null,
 	message: null,
 	loading: false
@@ -129,6 +139,10 @@ export const accountReducer = createReducer(initState, (builder) => {
 		.addCase(FETCH_SUCCESS_DROPDOWN, (state, action) => {
 			state.loading = false
 			state.dropdown = action.payload
+		})
+		.addCase(FETCH_SUCCESS_DETAIL, (state, action) => {
+			state.loading = false
+			state.detail = action.payload
 		})
 		.addCase(REQUEST_SUCCESS, (state, action) => {
 			state.loading = false

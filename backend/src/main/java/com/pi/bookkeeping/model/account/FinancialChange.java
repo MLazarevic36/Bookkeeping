@@ -1,7 +1,5 @@
 package com.pi.bookkeeping.model.account;
 
-import com.pi.bookkeeping.model.company.CompanyPartner;
-import com.pi.bookkeeping.model.conto.Conto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,6 +34,9 @@ public class FinancialChange {
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "account_item_id", nullable = false)
+    private Long accountItemId;
 
 
 }

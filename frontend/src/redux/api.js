@@ -27,7 +27,7 @@ export const accountURL = accounts
 export const accountPageURL = (pageNumber, pageSize, companyId) => `${accounts}/page/${companyId}?page=${pageNumber}&size=${pageSize}`
 export const creditAccountURL = (id) => `${accounts}/credit/${id}`
 export const cancelAccountURL = (id) => `${accounts}/cancel/${id}`
-export const accountDeleteURL = (id) => `${accounts}/${id}`
+export const accountSingleURL = (id) => `${accounts}/${id}`
 export const accountItemDeleteURL = (id) => `${accounts}${items}/${id}`
 export const accountDropdownURL = (companyId) => `${accounts}/dropdown/${companyId}`
 

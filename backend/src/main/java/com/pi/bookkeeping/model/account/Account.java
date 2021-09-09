@@ -1,6 +1,5 @@
 package com.pi.bookkeeping.model.account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pi.bookkeeping.model.company.Company;
 import com.pi.bookkeeping.model.company.CompanyDivision;
 import lombok.Getter;
@@ -42,7 +41,7 @@ public class Account implements Serializable {
     @Column(name = "account_date")
     private Date accountDate;
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     @Column
     private List<AccountItem> accountItems;
 

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class FinancialChangeService implements FinancialChangeInterface {
 
@@ -46,6 +48,7 @@ public class FinancialChangeService implements FinancialChangeInterface {
             financialChange.setAmount(accountItem.getRequiresAmount());
         }
         financialChange.setDate(accountItem.getDocumentDate());
+        financialChange.setAccountItemId(accountItem.getId());
 
         return financialChangeRepo.save(financialChange);
 
@@ -60,4 +63,10 @@ public class FinancialChangeService implements FinancialChangeInterface {
     public void delete(Long id) {
         financialChangeRepo.deleteById(id);
     }
+
+    @Transactional
+    public void deleteByAccountItem(Long id) {
+        financialChangeRepo.deleteFinancialChangeByAccountItemId(id);
+    }
+
 }

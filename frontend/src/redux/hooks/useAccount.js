@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addAccount, cancelAccount, creditAccount, deleteAccount, deleteAccountItem, fetchAccountsDropdown, fetchAccountsPage, updateAccount } from "../reducers/accountReducer";
+import { addAccount, cancelAccount, creditAccount, deleteAccount, deleteAccountItem, fetchAccountsDropdown, fetchAccountsPage, fetchOneAccount, updateAccount } from "../reducers/accountReducer";
 
 export default function useAccount() {
 	
@@ -9,6 +9,7 @@ export default function useAccount() {
 	const loading = useSelector((state) => state.account.loading);
 	const pagination = useSelector((state) => state.account.pagination);
 	const dropdown = useSelector((state) => state.account.dropdown)
+	const detail = useSelector((state) => state.account.detail)
 
 	const fetchPage = async (pageNumber, pageSize, companyId) => {
 		dispatch(fetchAccountsPage(pageNumber, pageSize, companyId));
@@ -16,6 +17,10 @@ export default function useAccount() {
 
 	const fetchDropdown = async (companyId) => {
 		dispatch(fetchAccountsDropdown(companyId));
+	}
+
+	const fetchOne = async (accountId) => {
+		return dispatch(fetchOneAccount(accountId));
 	}
 
 	const add = async (payload) => {
@@ -48,8 +53,10 @@ export default function useAccount() {
 		accounts,
 		pagination,
 		dropdown,
+		detail,
 		fetchDropdown,
 		fetchPage,
+		fetchOne,
 		credit,
 		cancel,
 		add,

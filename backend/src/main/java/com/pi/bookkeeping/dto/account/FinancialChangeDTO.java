@@ -22,5 +22,6 @@ public class FinancialChangeDTO {
     private String financialChangeDirection;
     private Long amount;
     private String description;
+    private Long accountItemId;
 
 }

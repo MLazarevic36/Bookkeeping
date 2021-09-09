@@ -1,7 +1,6 @@
 package com.pi.bookkeeping.model.account;
 
 import com.pi.bookkeeping.model.company.Company;
-import com.pi.bookkeeping.model.conto.Conto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

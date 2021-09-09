@@ -2,18 +2,16 @@ package com.pi.bookkeeping.service.account;
 
 import com.pi.bookkeeping.model.account.*;
 import com.pi.bookkeeping.model.company.Company;
-import com.pi.bookkeeping.model.conto.Conto;
-import com.pi.bookkeeping.model.conto.ContoPlan;
 import com.pi.bookkeeping.repository.account.AccountRepo;
 import com.pi.bookkeeping.service.company.CompanyService;
-import com.pi.bookkeeping.service.conto.ContoService;
 import com.pi.bookkeeping.service.interfaces.account.AccountInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class AccountService implements AccountInterface {
@@ -48,6 +46,11 @@ public class AccountService implements AccountInterface {
         return accountRepo.findAllByCompany(pageable, company);
     }
 
+    public List<Account> findAllByCompanyAndNotCredited(Long id) {
+        Company company = companyService.findOne(id);
+        return accountRepo.findAllByCompanyAndAccountStatus(company, AccountStatus.READY_FOR_CREDIT);
+    }
+
     @Override
     public Account save(Account account) {
         return accountRepo.save(account);
@@ -56,6 +59,14 @@ public class AccountService implements AccountInterface {
 
     @Override
     public Account update(Account account) {
+
+        return accountRepo.save(account);
+    }
+
+    public Account cancel(Account account) {
+        account.setAccountStatus(AccountStatus.CANCELLED);
+
+        account.getAccountItems().forEach(accountItem -> financialChangeService.deleteByAccountItem(accountItem.getId()));
 
         return accountRepo.save(account);
     }
@@ -70,7 +81,12 @@ public class AccountService implements AccountInterface {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
-        accountRepo.deleteById(id);
+
+        Account account = findOne(id);
+        account.getAccountItems().forEach(item -> accountItemService.delete(item.getId()));
+        accountRepo.save(account);
+        accountRepo.deleteAccountById(id);
     }
 }

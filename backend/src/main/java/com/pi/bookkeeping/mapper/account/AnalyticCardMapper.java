@@ -2,11 +2,6 @@ package com.pi.bookkeeping.mapper.account;
 
 import com.pi.bookkeeping.dto.account.AnalyticCardDTO;
 import com.pi.bookkeeping.model.account.AnalyticCard;
-import com.pi.bookkeeping.model.account.FinancialChange;
-import com.pi.bookkeeping.service.account.AccountService;
-import com.pi.bookkeeping.service.company.CompanyPartnerService;
-import com.pi.bookkeeping.service.conto.ContoService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;

@@ -28,7 +28,7 @@ public class FinancialChangeMapper {
         financialChangeDTO.setDate(financialChange.getDate());
         financialChangeDTO.setAnalyticCard(financialChange.getAnalyticCard().getId());
         financialChangeDTO.setFinancialChangeDirection(String.valueOf(financialChange.getFinancialChangeDirection()));
-
+        financialChangeDTO.setAccountItemId(financialChange.getAccountItemId());
         return financialChangeDTO;
     }
 
@@ -52,6 +52,7 @@ public class FinancialChangeMapper {
         financialChange.setAnalyticCard(analyticCard);
         financialChange.setFinancialChangeDirection(FinancialChangeDirection.valueOf(financialChangeDTO.getFinancialChangeDirection()));
         financialChange.setDate(financialChangeDTO.getDate());
+        financialChange.setAccountItemId(financialChangeDTO.getAccountItemId());
 
 
         return financialChange;
