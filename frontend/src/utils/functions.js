@@ -57,3 +57,21 @@ export const makeSelectOptionsConto = (array, setArray) => {
 
 	return options
 }
+
+export const dateFormatter = (cell) => {
+	const newDate = new Date()
+	newDate.setTime(cell)
+	return newDate.toLocaleDateString("en-GB")
+}
+
+export const priceFormatter = (price) => {
+	return  `${price}.00`
+}
+
+export const typeFormatter = (type) => {
+	if(type === "CALCULATION") {
+		return "Kalkulacija"
+	}else{
+		return "Izvod"
+	}
+}

@@ -1,26 +1,37 @@
 import { FormLabel } from "@chakra-ui/form-control"
 import { Flex } from "@chakra-ui/layout"
-import { Box } from "@chakra-ui/react"
+import { Box, Spacer } from "@chakra-ui/react"
+import useCompany from "../../redux/hooks/useCompany"
+import { dateFormatter, priceFormatter, typeFormatter } from "../../utils/functions"
 import AccountItemTable from "../tables/AccountItemTable"
 
 const AccountDetail = ({response}) => {
 
+	const hookCompany = useCompany()
+
+	const company = hookCompany.dropdown.find((ele) => ele.id === response.company)
+	const division = hookCompany.divisions.find((ele) => ele.id === response.companyDivision)
+
 	return (
-		<Box>
-			<Flex direction="row" gridGap="170px">
+		<Flex gridGap="12" direction="column">
+			<Flex direction="row" ml="2">
 				<FormLabel>Broj naloga: {response.id}</FormLabel>
-				<FormLabel>Kompanija: {response.company}</FormLabel>
-				<FormLabel>Poslovna jedinica: {response.companyDivision}</FormLabel>
-				<FormLabel>Tip naloga: {response.accountType}</FormLabel>
-				<FormLabel>Datum naloga: {response.accountDate}</FormLabel>
+				<Spacer />
+				<FormLabel>Kompanija: {company.name}</FormLabel>
+				<Spacer />
+				<FormLabel>Poslovna jedinica: {division.name}</FormLabel>
+				<Spacer />
+				<FormLabel>Tip naloga: {typeFormatter(response.accountType)}</FormLabel>
+				<Spacer />
+				<FormLabel>Datum naloga: {dateFormatter(response.accountDate)}</FormLabel>
 			</Flex>
 			<AccountItemTable data={response.accountItems} />
 			<Flex direction="row" alignSelf="center" gridGap="100px">
-				<FormLabel>Ukupno duguje: {response.owesAmountTotal}</FormLabel>
-				<FormLabel>Ukupno potrazuje: {response.requiresAmountTotal}</FormLabel>
-				<FormLabel>Ukupni saldo: {response.saldo}</FormLabel>
+				<FormLabel>Ukupno duguje: {priceFormatter(response.owesAmountTotal)}</FormLabel>
+				<FormLabel>Ukupno potrazuje: {priceFormatter(response.requiresAmountTotal)}</FormLabel>
+				<FormLabel>Ukupni saldo: {priceFormatter(response.saldo)}</FormLabel>
 			</Flex>
-		</Box>
+		</Flex>
 	)
 }
 

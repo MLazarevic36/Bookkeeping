@@ -1,4 +1,4 @@
-import { companyURL, companyDivisionURL, companyPartnerURL } from "../api"
+import { companyURL, companyDivisionURL, companyPartnerURL, companyDivisionByCompanyURL } from "../api"
 import { createAction, createReducer } from "@reduxjs/toolkit"
 import axios from "axios"
 import {
@@ -11,6 +11,7 @@ const REQUEST_FAIL = createAction("COMPANY/REQUEST_FAIL")
 const REQUEST_SUCCESS = createAction("COMPANY/REQUEST_SUCCESS")
 const CLEAN_MESSAGE = createAction("COMPANY/CLEAN_MESSAGE")
 const FETCH_SUCCESS_DIVISIONS = createAction("COMPANY/DIVISIONS/FETCH_SUCCESS")
+const FETCH_SUCCESS_DROPDOWN = createAction("COMPANY/FETCH_SUCCESS_DROPDOWN")
 
 
 export const fetchPartners = (id) => async (dispatch) => {
@@ -21,11 +22,27 @@ export const fetchPartners = (id) => async (dispatch) => {
 		.catch(error => console.log(error))
 }
 
+export const fetchAllDivisions = () => async (dispatch) => {
+	dispatch(START_REQUEST());
+	return axios
+		.get(companyDivisionURL)
+		.then((res) => handleResponse(res, dispatch, FETCH_SUCCESS_DIVISIONS, REQUEST_FAIL))
+		.catch(error => console.log(error))
+}
+
 export const fetchDivisions = (id) => async (dispatch) => {
 	dispatch(START_REQUEST());
 	return axios
-		.get(companyDivisionURL(id))
+		.get(companyDivisionByCompanyURL(id))
 		.then((res) => handleResponse(res, dispatch, FETCH_SUCCESS_DIVISIONS, REQUEST_FAIL))
+		.catch(error => console.log(error))
+}
+
+export const fetchCompanies = () => async (dispatch) => {
+	dispatch(START_REQUEST());
+	return axios
+		.get(companyURL)
+		.then((res) => handleResponse(res, dispatch, FETCH_SUCCESS_DROPDOWN, REQUEST_FAIL))
 		.catch(error => console.log(error))
 }
 
@@ -58,6 +75,7 @@ const handleResponse = (res, dispatch, success, fail) => {
 const initState = {
 	divisions: [],
 	partners: [],
+	dropdown: [],
 	message: null,
 	loading: false
 };
@@ -68,12 +86,14 @@ export const companyReducer = createReducer(initState, (builder) => {
 			state.loading = true
 			state.message = null
 		})
-
 		.addCase(FETCH_SUCCESS_PARTNERS, (state, action) => {
 			state.loading = false
 			state.partners = action.payload
 		})
-
+		.addCase(FETCH_SUCCESS_DROPDOWN, (state, action) => {
+			state.loading = false
+			state.dropdown = action.payload
+		})
 		.addCase(FETCH_SUCCESS_DIVISIONS, (state, action) => {
 			state.loading = false
 			state.divisions = action.payload

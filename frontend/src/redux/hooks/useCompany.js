@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDivisions, fetchPartners } from "../reducers/companyReducer";
+import { fetchAllDivisions, fetchCompanies, fetchDivisions, fetchPartners } from "../reducers/companyReducer";
 
 export default function useCompany() {
 	
@@ -8,6 +8,7 @@ export default function useCompany() {
 	const message = useSelector((state) => state.company.message);
 	const loading = useSelector((state) => state.company.loading);
 	const divisions = useSelector((state) => state.company.divisions)
+	const dropdown = useSelector((state) => state.company.dropdown)
 	
 	const fetchP = async (id) => {
 		dispatch(fetchPartners(id))
@@ -17,12 +18,23 @@ export default function useCompany() {
 		dispatch(fetchDivisions(id))
 	}
 
+	const fetchAD = async () => {
+		dispatch(fetchAllDivisions())
+	}
+
+	const fetchC = async () => {
+		dispatch(fetchCompanies())
+	}
+
 	return {
+		fetchC,
 		message,
+		dropdown,
 		loading,
 		partners,
 		divisions,
 		fetchD,
+		fetchAD,
 		fetchP
 	};
 }

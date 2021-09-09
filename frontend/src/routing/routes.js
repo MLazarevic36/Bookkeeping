@@ -10,31 +10,37 @@ const routes = [
 		path: "/login",
 		component: LoginPage,
 		isPrivate: false,
+		isAdmin: false
 	},
 	{
 		path: "/",
 		component: HomePage,
-		isPrivate: false,
+		isPrivate: true,
+		isAdmin: false
 	},
 	{
 		path: "/conto-plan",
 		component: ContoPlanPage,
-		isPrivate: false,
+		isPrivate: true,
+		isAdmin: false
 	},
 	{
 		path: "/accounts",
 		component: AccountPage,
-		isPrivate: false,
+		isPrivate: true,
+		isAdmin: false
 	},
 	{
 		path: "/main-book",
 		component: MainBookPage,
-		isPrivate: false
+		isPrivate: true,
+		isAdmin: false
 	},
 	{
 		path: "/reports",
 		component: ReportPage,
-		isPrivate: false
+		isPrivate: true,
+		isAdmin: true
 	}
 	
 ];

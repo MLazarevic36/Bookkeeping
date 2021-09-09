@@ -10,34 +10,39 @@ const UserNavbar = ({ children }) => {
         <Container>
             <nav>
                 <div className="nav-left">
-					<Link
-                        to="/conto-plan"
-                        className="nav-buttons"
-                        title="Kontni plan"
-                        >
-						<p className="nav-title">Kontni plan</p>
-					</Link>
-					<Link
-                        to="/accounts"
-                        className="nav-buttons"
-                        title="Nalog"
-                        >
-						<p className="nav-title">Nalog</p>
-					</Link>
-					<Link
-                        to="/main-book"
-                        className="nav-buttons"
-                        title="Glavna knjiga"
-                        >
-						<p className="nav-title">Glavna knjiga</p>
-					</Link>
-					<Link
-                        to="/reports"
-                        className="nav-buttons"
-                        title="Izvestaji"
-                        >
-						<p className="nav-title">Izvestaji</p>
-					</Link>
+					{
+						hook.role !== "USER" ? 					
+						<Link
+							to="/reports"
+							className="nav-buttons"
+							title="Izvestaji"
+							>
+							<p className="nav-title">Izvestaji</p>
+						</Link> :
+						<>
+							<Link
+								to="/conto-plan"
+								className="nav-buttons"
+								title="Kontni plan"
+								>
+								<p className="nav-title">Kontni plan</p>
+							</Link>
+							<Link
+								to="/accounts"
+								className="nav-buttons"
+								title="Nalog"
+								>
+								<p className="nav-title">Nalog</p>
+							</Link>
+							<Link
+								to="/main-book"
+								className="nav-buttons"
+								title="Glavna knjiga"
+								>
+								<p className="nav-title">Glavna knjiga</p>
+							</Link>
+						</>
+					}
                 </div>
                 <div className="nav-right">
 					<div className="nav-buttons" title="Logout">

@@ -17,7 +17,8 @@ export const contoDropdownURL  = (companyId) => `${conto}/dropdown/${companyId}`
 const company = "/company"
 
 export const companyURL = company
-export const companyDivisionURL = (id) => company + `/divisions/${id}`
+export const companyDivisionByCompanyURL = (id) => company + `/divisions/${id}`
+export const companyDivisionURL = company + "/divisions"
 export const companyPartnerURL = (id) => company + `/partners/${id}`
 
 const accounts = "/accounts"
@@ -30,6 +31,7 @@ export const cancelAccountURL = (id) => `${accounts}/cancel/${id}`
 export const accountSingleURL = (id) => `${accounts}/${id}`
 export const accountItemDeleteURL = (id) => `${accounts}${items}/${id}`
 export const accountDropdownURL = (companyId) => `${accounts}/dropdown/${companyId}`
+export const accountReportURL = (companyId) => `${accounts}/report/${companyId}`
 
 const mainBook = "/main-book"
 export const mainBookPageURL = (pageNumber, pageSize, companyId) =>  `${mainBook}/page/${companyId}?page=${pageNumber}&size=${pageSize}`

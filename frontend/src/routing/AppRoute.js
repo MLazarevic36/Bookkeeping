@@ -4,6 +4,7 @@ import useUser from "../redux/hooks/useUser";
 
 const AppRoute = ({ component: Component, path, isPrivate, ...rest }) => {
 	const token = useUser().token;
+	const role = useUser().role;
 
 	return (
 		<Route
@@ -12,8 +13,12 @@ const AppRoute = ({ component: Component, path, isPrivate, ...rest }) => {
 				if (isPrivate && token === "") {
 					return <Redirect to={{ pathname: "/login" }} />;
 				} else if (path === "/login" && token) {
+
+				return <Redirect to={{ pathname: "/" }} />	
+					
+				}else if (path === "/reports" && role === "USER") {
 					return <Redirect to={{ pathname: "/" }} />;
-				} else {
+				}else {
 					return <Component {...props} />;
 				}
 			}}

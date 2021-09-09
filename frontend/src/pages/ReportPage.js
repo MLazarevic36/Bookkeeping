@@ -1,5 +1,5 @@
 import { FormLabel } from "@chakra-ui/form-control";
-import { Box, Flex } from "@chakra-ui/layout";
+import { Box, Flex, Heading } from "@chakra-ui/layout";
 import { useEffect } from "react";
 import { useState } from "react";
 import CustomButton from "../components/CustomButton";
@@ -8,6 +8,7 @@ import AccountDetail from "../components/reports/AccountDetail";
 import AnalyticCardReport from "../components/reports/AnalyticCardReport";
 import SelectDropdown from "../components/SelectDropdown";
 import useAccount from "../redux/hooks/useAccount";
+import useCompany from "../redux/hooks/useCompany";
 import useConto from "../redux/hooks/useConto";
 import useReport from "../redux/hooks/useReport";
 import useUser from "../redux/hooks/useUser";
@@ -20,22 +21,32 @@ const ReportPage = () => {
 	const hookConto = useConto()
 	const hookAccount = useAccount()
 	const hookUser = useUser()
+	const hookCompany = useCompany()
 
 	const [selectedReport, setSelectedReport] = useState(null)
 	const [selectedConto, setSelectedConto] = useState(null)
+	const [selectedCompany, setSelectedCompany] = useState(null)
 	const [selectedAccount, setSelectedAccount] = useState(null)
 	const [contoOptions, setContoOptions] = useState([])
 	const [accountOptions, setAccountOptions] = useState([])
+	const [companyOptions, setCompanyOptions] = useState([])
 	const [analyticCardResponse, setAnalyticCardResponse] = useState(null)
 	const [detailAccount, setDetailAccount] = useState(null)
+	const [accounts, setAccounts] = useState(null)
 
 	useEffect(() => {
-		hookAccount.fetchDropdown(hookUser.employee.company)
+		// hookAccount.fetchDropdown(hookUser.employee.company)
+		// hookCompany.fetchD(hookUser.employee.company)
+		// hookConto.fetchDropdown(hookUser.employee.company)
+		hookCompany.fetchAD()
+		hookCompany.fetchC()
 	}, [])
 
 	useEffect(() => {
 		if(hookConto.dropdown.length > 0) {
 			makeSelectOptionsConto(hookConto.dropdown, setContoOptions)
+		}else{
+			setContoOptions([])
 		}
 
 		if(hookAccount.dropdown.length > 0) {
@@ -44,7 +55,22 @@ const ReportPage = () => {
 			setAccountOptions(options)
 		}
 
-	}, [hookConto.dropdown])
+		if(hookCompany.dropdown.length > 0) {
+			const options = []
+			hookCompany.dropdown.forEach(ele => options.push({label: ele.name, value: ele.id}))
+			setCompanyOptions(options)
+		}else{
+			setCompanyOptions(null)
+		}
+
+	}, [hookConto.dropdown, hookAccount.dropdown, hookCompany.dropdown])
+
+	useEffect(() => {
+		if(selectedCompany) {
+			hookConto.fetchDropdown(selectedCompany)
+		}
+
+	}, [selectedCompany])
 
 	const handleSubmit = () => {
 		if(selectedReport === reportAnalyticCard) {
@@ -59,10 +85,10 @@ const ReportPage = () => {
 				}
 			})
 		}else if(selectedReport === reportCreditAccount) {
-			hookAccount.fetchOne(selectedAccount).then((res) => {
+			hook.generateCAReport(selectedCompany).then((res) => {
 				if(res !== undefined && res.status === 200) {
 					setAnalyticCardResponse(null)
-					setDetailAccount(res.data)
+					setAccounts(res.data)
 				}
 			})
 		}
@@ -70,6 +96,7 @@ const ReportPage = () => {
 
 	return (
 		<Layout>
+			{console.log(selectedReport)}
 		<Flex
 			direction={["column", "column", "column", "row"]}
 			w="80%"
@@ -91,26 +118,42 @@ const ReportPage = () => {
 			</Box>
 			{
 				selectedReport === reportAnalyticCard && (
-				<Box w="600px">
-					<FormLabel color="mc_medium" mb="10px">
-						{"KONTO"}
-					</FormLabel>
-					<SelectDropdown
-						options={contoOptions}
-						onChange={(val) => setSelectedConto(val.value)}
-					/>
-				</Box>
+				<>
+					<Box w="300px">
+						<FormLabel color="mc_medium" mb="10px">
+							{"PREDUZECE"}
+						</FormLabel>
+						<SelectDropdown
+							options={companyOptions}
+							onChange={(val) => setSelectedCompany(val.value)}
+						/>
+					</Box>
+					{
+						selectedCompany && 
+						<Box w="600px">
+							<FormLabel color="mc_medium" mb="10px">
+								{"KONTO"}
+							</FormLabel>
+							<SelectDropdown
+								options={contoOptions}
+								onChange={(val) => setSelectedConto(val.value)}
+							/>
+						</Box>
+						
+					}
+	
+				</>
 				)
 			}
 			{
 				selectedReport === reportCreditAccount && (
 				<Box w="300px">
 					<FormLabel color="mc_medium" mb="10px">
-						{"BROJ NALOGA"}
+						{"PREDUZECE"}
 					</FormLabel>
 					<SelectDropdown
-						options={accountOptions}
-						onChange={(val) => setSelectedAccount(val.value)}
+						options={companyOptions}
+						onChange={(val) => setSelectedCompany(val.value)}
 					/>
 				</Box>
 				)
@@ -120,8 +163,15 @@ const ReportPage = () => {
 		</Flex>
 		<Flex justify="center" align="center" h="370px">
 			{
-				analyticCardResponse ? <AnalyticCardReport response={analyticCardResponse} /> :
-				detailAccount ? <AccountDetail response={detailAccount} /> : null
+				analyticCardResponse ? 
+					<AnalyticCardReport response={analyticCardResponse} /> :
+				accounts ?
+				<Flex direction="column" gridGap="150px" h={"100%"} mt="50px"> 
+					{accounts.map((ele, i) => {
+						return <AccountDetail response={ele} /> 
+					})}
+				</Flex>
+				: null
 			}
 		</Flex>
 

@@ -1,5 +1,8 @@
 import { TablesStyles } from "./TableStyles"
 import BootstrapTable from "react-bootstrap-table-next"
+import useCompany from "../../redux/hooks/useCompany"
+import useConto from "../../redux/hooks/useConto"
+import { dateFormatter, priceFormatter } from "../../utils/functions"
 
 const AccountItemTable = ({data}) => {
 
@@ -10,15 +13,26 @@ const AccountItemTable = ({data}) => {
     // private Date currencyDate;
     // private Long account;
     // private Long saldo;
+	const hookCompany = useCompany()
+	const hookConto = useConto()
 
 	const columns = [
 		{
 			dataField: "conto",
-			text: "Konto"
+			text: "Konto",
+			formatter: (cell) => {
+				const conto = hookConto.dropdown.find((ele) => ele.id === cell)
+
+				return `${conto.label} - ${conto.description}`
+			}
 		},
         {
             dataField: "partner",
             text: "Partner",
+			formatter: (cell) => {
+				const partner = hookCompany.divisions.find((ele) => ele.id === cell) 
+				return partner.name
+			}
         },
 		{
 			dataField: "description",
@@ -32,31 +46,36 @@ const AccountItemTable = ({data}) => {
             dataField: "documentDate",
             text: "Datum dokumenta",
 			formatter: (cell) => {
-				const newDate = new Date()
-				newDate.setTime(cell)
-				return newDate.toLocaleDateString("en-GB")
+				return dateFormatter(cell)
 			}
         },
 		{
             dataField: "currencyDate",
             text: "Datum valute",
 			formatter: (cell) => {
-				const newDate = new Date()
-				newDate.setTime(cell)
-				return newDate.toLocaleDateString("en-GB")
+				return dateFormatter(cell)
 			}
         },
 		{
             dataField: "owesAmount",
-            text: "Ukupno duguje",
+            text: "Duguje",
+			formatter: (cell) => {
+				return priceFormatter(cell)
+			}
         },
 		{
             dataField: "requiresAmount",
-            text: "Ukupno potrazuje",
+            text: "Potrazuje",
+			formatter: (cell) => {
+				return priceFormatter(cell)
+			}
         },
 		{
             dataField: "saldo",
-            text: "Ukupni saldo",
+            text: "Saldo",
+			formatter: (cell) => {
+				return priceFormatter(cell)
+			}
         },
 	]
 

@@ -1,12 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addAccount, creditAccount, fetchAccountsPage } from "../reducers/accountReducer";
-import { fetchMainBookPage } from "../reducers/mainBookReducer";
-import { generateAnalyticCardReport } from "../reducers/reportReducer";
+import { generateAnalyticCardReport, generateCreditAccountsReport } from "../reducers/reportReducer";
 
 export default function useReport() {
 	
 	const dispatch = useDispatch();
 	const analyticCard = useSelector((state) => state.report.analyticCard);
+	const accounts = useSelector((state) => state.report.accounts);
 	const message = useSelector((state) => state.report.message);
 	const loading = useSelector((state) => state.report.loading);
 
@@ -14,10 +13,17 @@ export default function useReport() {
 		return dispatch(generateAnalyticCardReport(payload));
 	}
 
+	const generateCAReport = async (payload) => {
+		return dispatch(generateCreditAccountsReport(payload));
+	}
+
 	return {
 		message,
 		loading,
 		analyticCard,
 		generateACReport,
+		generateCAReport,
+		accounts
+
 	};
 }

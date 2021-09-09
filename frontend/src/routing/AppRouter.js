@@ -12,6 +12,7 @@ const AppRouter = () => {
 					path={route.path}
 					component={route.component}
 					isPrivate={route.isPrivate}
+					isAdmin={route.isAdmin}
 					exact={true}
 				/>
 			))}
