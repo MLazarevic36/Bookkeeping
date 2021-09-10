@@ -10,24 +10,26 @@ const ClassComp = ({ contoClass }) => {
 	let totalSaldoOwes = 0;
 	let totalSaldoRequires = 0;
 
-	contoClass.analyticCards.forEach(card => {
-		totalOwes = totalOwes + card.totalOwes
-		totalRequires = totalRequires + card.totalRequires
-		totalSaldoOwes = totalSaldoOwes + card.saldoTotalOwes
-		totalSaldoRequires = totalSaldoRequires + card.saldoTotalRequires
-	})
+	if(contoClass.analyticCards) {
+		contoClass.analyticCards.forEach(card => {
+			totalOwes = totalOwes + card.totalOwes
+			totalRequires = totalRequires + card.totalRequires
+			totalSaldoOwes = totalSaldoOwes + card.saldoTotalOwes
+			totalSaldoRequires = totalSaldoRequires + card.saldoTotalRequires
+		})
+}
 
 	return (
 		<Flex direction="column">
 			<Heading>{`Klasa ${contoClass.className}`}</Heading>
 			
-			<ClassTable data={contoClass.analyticCards}/>
+			<ClassTable data={contoClass.analyticCards || []}/>
 			
 			<Flex gridGap="240px" ml="450px">
-				<FormLabel>{priceFormatter(totalOwes)}</FormLabel>
-				<FormLabel>{priceFormatter(totalRequires)} </FormLabel>
-				<FormLabel>{priceFormatter(totalSaldoOwes)}</FormLabel>
-				<FormLabel>{priceFormatter(totalSaldoRequires)}</FormLabel>
+				<FormLabel ml={totalOwes === 0 && "15px"}>{priceFormatter(totalOwes)}</FormLabel>
+				<FormLabel ml={totalRequires === 0 && "35px"}>{priceFormatter(totalRequires)} </FormLabel>
+				<FormLabel ml={totalSaldoOwes === 0 && "35px"}>{priceFormatter(totalSaldoOwes)}</FormLabel>
+				<FormLabel ml={totalSaldoOwes === 0 && "35px"}>{priceFormatter(totalSaldoRequires)}</FormLabel>
 			</Flex>
 
 		</Flex>

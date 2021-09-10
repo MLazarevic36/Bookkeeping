@@ -14,6 +14,7 @@ const MainBookPage = () => {
 	const hookConto = useConto()
 
 	const [analyticCards, setAnalyticCards] = useState([])
+	const [totals, setTotals] = useState(null)
 
 	useEffect(() => {
 		hook.fetchPage(0, defaultSize, hookUser.employee.company)
@@ -24,6 +25,9 @@ const MainBookPage = () => {
 		if(hook.analyticCards.length > 0) {
 			const currentData = [...hook.analyticCards]
 			const newData = []
+			let totalOwes = 0
+			let totalRequires = 0
+			let totalSaldo = 0
 			currentData.map((ele) => {
 				let newObj = {}
 				let owesTotal = 0;
@@ -45,7 +49,18 @@ const MainBookPage = () => {
 				newObj["requiresAmountTotal"] = requiresTotal
 				newObj["saldo"] = owesTotal - requiresTotal
 				newData.push(newObj)
+				totalOwes = totalOwes + owesTotal
+				totalRequires = totalRequires + requiresTotal
+				
 			})
+
+			totalSaldo = totalOwes - totalRequires
+			const totals = {
+				totalOwes: totalOwes,
+				totalRequires: totalRequires,
+				totalSaldo: totalSaldo
+			}
+			setTotals(totals)
 			setAnalyticCards(newData)
 		}
 	}, [hook.analyticCards])
@@ -54,7 +69,7 @@ const MainBookPage = () => {
 	return (
 		<Layout>
 			
-			<MainBookTable data={analyticCards}/>
+			<MainBookTable data={analyticCards} totals={totals}/>
 			{/* <CustomModal isOpen={isOpen} onClose={onClose} size={"full"} overlayClick={false}>
 
 			</CustomModal> */}

@@ -19,7 +19,7 @@ const AnalyticCardReport = ({ response }) => {
 
 	return (
 		<Flex direction="column" gridGap="5">
-			<Heading alignSelf="center">{`${conto.label} - ${conto.description}`}</Heading>
+			<Heading alignSelf="center">{conto !== undefined && `${conto.label} - ${conto.description}`}</Heading>
 			<AnalyticCardTable data={response.items}/>
 			<Flex direction="row" gridGap="5" alignSelf="center">
 				<Heading as="h4" size="md">{`Ukupno duguje: ${totalOwes}.00`}</Heading>

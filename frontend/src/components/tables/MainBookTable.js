@@ -1,6 +1,6 @@
 import { TablesStyles } from "./TableStyles"
 import BootstrapTable from "react-bootstrap-table-next"
-import { Box, useDisclosure } from "@chakra-ui/react"
+import { Box, useDisclosure, Flex } from "@chakra-ui/react"
 import Pagination from "./Pagination"
 import DeleteModal from "../modals/DeleteModal"
 import { useState } from "react"
@@ -12,8 +12,10 @@ import useConto from "../../redux/hooks/useConto"
 import useUser from "../../redux/hooks/useUser"
 import { useEffect } from "react"
 import FinancialChangeTable from "./FinancialChangeTable"
+import { priceFormatter } from "../../utils/functions"
+import { FormLabel } from "@chakra-ui/form-control"
 
-const MainBookTable = ({data, pagination, selectData}) => {
+const MainBookTable = ({data, pagination, totals}) => {
 
 	const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -88,6 +90,16 @@ const MainBookTable = ({data, pagination, selectData}) => {
 					bootstrap4
 				/>
 			</TablesStyles>
+			{
+				totals && 		
+				<Flex gridGap="320px" ml="380px">
+					<FormLabel ml={totals.totalOwes === 0 && "15px"}>{priceFormatter(totals.totalOwes)}</FormLabel>
+					<FormLabel ml={totals.totalRequires === 0 && "35px"}>{priceFormatter(totals.totalRequires)} </FormLabel>
+					<FormLabel ml={totals.totalSaldo === 0 && "20px"}>{priceFormatter(totals.totalSaldo)}</FormLabel>
+				</Flex>
+			}
+	
+
 			{data.length >= defaultSize &&
 				<Box>
 					<Pagination

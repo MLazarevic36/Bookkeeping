@@ -40,6 +40,13 @@ const AccountTable = ({data, pagination, selectData}) => {
         {
             dataField: "accountType",
             text: "Tip naloga",
+			formatter: (cell) => {
+				if(cell === "CALCULATION") {
+					return "Kalkulacija"
+				}else{
+					return "Izvod"
+				}
+			}
         },
 		{
             dataField: "accountDate",

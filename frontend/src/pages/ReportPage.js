@@ -14,7 +14,7 @@ import useCompany from "../redux/hooks/useCompany";
 import useConto from "../redux/hooks/useConto";
 import useReport from "../redux/hooks/useReport";
 import useUser from "../redux/hooks/useUser";
-import { makeSelectOptionsConto } from "../utils/functions";
+import { dateFormatter, makeSelectOptionsConto, priceFormatter } from "../utils/functions";
 import { reportAnalyticCard, reportCreditAccount, reportGrossBalanceSheet, reportOptions } from "../utils/strings";
 
 const ReportPage = () => {
@@ -115,6 +115,42 @@ const ReportPage = () => {
 		}
 	}
 
+	const totalTotal = () => {
+		let totalOwes = 0;
+		let totalRequires = 0;
+		let totalSaldoOwes = 0;
+		let totalSaldoRequires = 0;
+	
+		if(classes) {
+			classes.forEach((ele) => {
+				if(ele.analyticCards) {
+					ele.analyticCards.forEach(card => {
+						totalOwes = totalOwes + card.totalOwes
+						totalRequires = totalRequires + card.totalRequires
+						totalSaldoOwes = totalSaldoOwes + card.saldoTotalOwes
+						totalSaldoRequires = totalSaldoRequires + card.saldoTotalRequires
+					})
+				}
+			})
+		}
+
+		return { totalOwes, totalRequires, totalSaldoOwes, totalSaldoRequires }
+	}
+
+	const handleCompany = (val) => {
+		setAnalyticCardResponse(null)
+		setClasses(null)
+		setAccounts(null)
+		setSelectedCompany(val)
+	}
+
+	const handleReport = (val) => {
+		setAnalyticCardResponse(null)
+		setClasses(null)
+		setAccounts(null)
+		setSelectedReport(val)
+	}	
+
 	return (
 		<Layout>
 			{console.log(selectedReport)}
@@ -130,11 +166,11 @@ const ReportPage = () => {
 		>
 			<Box w="370px">
 				<FormLabel color="mc_medium" mb="10px">
-					{"IZVESTAJ"}
+					{"IZVEŠTAJ"}
 				</FormLabel>
 				<SelectDropdown
 					options={reportOptions}
-					onChange={(val) => setSelectedReport(val.value)}
+					onChange={(val) => handleReport(val.value)}
 				/>
 			</Box>
 			{
@@ -142,11 +178,11 @@ const ReportPage = () => {
 				<>
 					<Box w="300px">
 						<FormLabel color="mc_medium" mb="10px">
-							{"PREDUZECE"}
+							{"PREDUZEĆE"}
 						</FormLabel>
 						<SelectDropdown
 							options={companyOptions}
-							onChange={(val) => setSelectedCompany(val.value)}
+							onChange={(val) => handleCompany(val.value)}
 						/>
 					</Box>
 					{
@@ -170,11 +206,11 @@ const ReportPage = () => {
 				selectedReport === reportCreditAccount && (
 				<Box w="300px">
 					<FormLabel color="mc_medium" mb="10px">
-						{"PREDUZECE"}
+						{"PREDUZEĆE"}
 					</FormLabel>
 					<SelectDropdown
 						options={companyOptions}
-						onChange={(val) => setSelectedCompany(val.value)}
+						onChange={(val) => handleCompany(val.value)}
 					/>
 				</Box>
 				)
@@ -184,11 +220,11 @@ const ReportPage = () => {
 					<>
 					<Box w="300px">
 						<FormLabel color="mc_medium" mb="10px">
-							{"PREDUZECE"}
+							{"PREDUZEĆE"}
 						</FormLabel>
 						<SelectDropdown
 							options={companyOptions}
-							onChange={(val) => setSelectedCompany(val.value)}
+							onChange={(val) => handleCompany(val.value)}
 						/>
 					</Box>
 					<DatePickerWrapper
@@ -219,24 +255,35 @@ const ReportPage = () => {
 					<AnalyticCardReport response={analyticCardResponse} /> :
 				accounts ?
 				<Flex direction="column" gridGap="150px" h={"100%"} mt="50px"> 
-					{accounts.map((ele, i) => {
+					{accounts.length > 0 ? accounts.map((ele, i) => {
 						return <AccountDetail response={ele} /> 
-					})}
+					}) 
+					:
+					<Heading>Nema dovoljno podataka</Heading>
+				}
 				</Flex>
 				: classes ? 
 				<Flex direction="column" gridGap="50px" h={"100%"} mt="70px"> 
-					<Heading alignSelf="center">{`Bilans stanja`}</Heading>
-					{classes.map((ele, i) => {
-						return <ClassComp contoClass={ele} /> 
-					})}
+					<Flex direction="column">
+						<Heading alignSelf="center">{`Bilans stanja preduzeća ${hookCompany.dropdown.find(ele => ele.id === selectedCompany).name}`}</Heading>
+						<Heading alignSelf="center">{`za period od: ${dateFormatter(startDate)} do: ${dateFormatter(endDate)}`}</Heading>
 					</Flex>
+					{classes.map((ele, i) => {
+						if(ele.analyticCards && ele.analyticCards.length > 0) {
+							return <ClassComp contoClass={ele} /> 
+						}
+					})}
+					<Flex gridGap="240px" ml="450px">
+						<FormLabel ml={totalTotal().totalOwes === 0 && "15px"}>{priceFormatter(totalTotal().totalOwes)}</FormLabel>
+						<FormLabel ml={totalTotal().totalRequires === 0 && "35px"}>{priceFormatter(totalTotal().totalRequires)} </FormLabel>
+						<FormLabel ml={totalTotal().totalSaldoOwes === 0 && "35px"}>{priceFormatter(totalTotal().totalSaldoOwes)}</FormLabel>
+						<FormLabel ml={totalTotal().totalSaldoRequires === 0 && "35px"}>{priceFormatter(totalTotal().totalSaldoRequires)}</FormLabel>
+					</Flex>
+				</Flex>
 				: null
 			}
 		</Flex>
 
-		{/* {barGraphData && 
-			<BarChart data={barGraphData}/>
-		} */}
 	</Layout>
 	)
 }
