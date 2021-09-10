@@ -4,8 +4,8 @@ import "react-datepicker/dist/react-datepicker.css"
 import { Box } from "@chakra-ui/layout"
 import { FormLabel } from "@chakra-ui/form-control"
 
-const DatePickerWrapper = styled(({ className, label, ...props }) => (
-	<Box w="20%" minW="450px" minH={"100px"}>
+const DatePickerWrapper = styled(({ className, label, minW, ...props }) => (
+	<Box w="20%" minW={minW || "450px"}>
 		<FormLabel color="#012C31" fontSize="16px">
 			{label}
 		</FormLabel>

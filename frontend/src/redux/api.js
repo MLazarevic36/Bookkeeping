@@ -38,3 +38,4 @@ export const mainBookPageURL = (pageNumber, pageSize, companyId) =>  `${mainBook
 
 const report = "/reports"
 export const reportAnalyticCardURL = report + "/analytic-card"
+export const reportBrutoBalanceURL = report + "/bruto-balance"

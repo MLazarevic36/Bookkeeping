@@ -3,9 +3,11 @@ import { Box, Flex, Heading } from "@chakra-ui/layout";
 import { useEffect } from "react";
 import { useState } from "react";
 import CustomButton from "../components/CustomButton";
+import DatePickerWrapper, { Calendar } from "../components/CustomDatePicker";
 import Layout from "../components/layouts/Layout";
 import AccountDetail from "../components/reports/AccountDetail";
 import AnalyticCardReport from "../components/reports/AnalyticCardReport";
+import ClassComp from "../components/reports/ClassComp";
 import SelectDropdown from "../components/SelectDropdown";
 import useAccount from "../redux/hooks/useAccount";
 import useCompany from "../redux/hooks/useCompany";
@@ -13,7 +15,7 @@ import useConto from "../redux/hooks/useConto";
 import useReport from "../redux/hooks/useReport";
 import useUser from "../redux/hooks/useUser";
 import { makeSelectOptionsConto } from "../utils/functions";
-import { reportAnalyticCard, reportCreditAccount, reportOptions } from "../utils/strings";
+import { reportAnalyticCard, reportCreditAccount, reportGrossBalanceSheet, reportOptions } from "../utils/strings";
 
 const ReportPage = () => {
 
@@ -33,6 +35,9 @@ const ReportPage = () => {
 	const [analyticCardResponse, setAnalyticCardResponse] = useState(null)
 	const [detailAccount, setDetailAccount] = useState(null)
 	const [accounts, setAccounts] = useState(null)
+	const [startDate, setStartDate] = useState(null)
+	const [endDate, setEndDate] = useState(null)
+	const [classes, setClasses] = useState(null)
 
 	useEffect(() => {
 		// hookAccount.fetchDropdown(hookUser.employee.company)
@@ -81,6 +86,7 @@ const ReportPage = () => {
 			hook.generateACReport(payload).then((res) => {
 				if(res !== undefined && res.status === 200) {
 					setDetailAccount(null)
+					setClasses(null)
 					setAnalyticCardResponse(res.data)
 				}
 			})
@@ -88,7 +94,22 @@ const ReportPage = () => {
 			hook.generateCAReport(selectedCompany).then((res) => {
 				if(res !== undefined && res.status === 200) {
 					setAnalyticCardResponse(null)
+					setClasses(null)
 					setAccounts(res.data)
+				}
+			})
+		}else if(selectedReport === reportGrossBalanceSheet) {
+			const payload = {
+				companyId: selectedCompany,
+				start: startDate,
+				end: endDate
+			}
+
+			hook.generateBBReport(payload).then((res) => {
+				if(res !== undefined && res.status === 200) {
+					setDetailAccount(null)
+					setAnalyticCardResponse(null)
+					setClasses(res.data.classes)
 				}
 			})
 		}
@@ -158,6 +179,37 @@ const ReportPage = () => {
 				</Box>
 				)
 			}
+			{
+				selectedReport === reportGrossBalanceSheet && (
+					<>
+					<Box w="300px">
+						<FormLabel color="mc_medium" mb="10px">
+							{"PREDUZECE"}
+						</FormLabel>
+						<SelectDropdown
+							options={companyOptions}
+							onChange={(val) => setSelectedCompany(val.value)}
+						/>
+					</Box>
+					<DatePickerWrapper
+						minW="200px"
+						label={"Od"}
+						selected={startDate}
+						calendarContainer={Calendar}
+						onChange={(date) => setStartDate(date)}
+						dateFormat="dd-MM-yyyy"
+					/>
+					<DatePickerWrapper
+							minW="200px"
+							label={"Do"}
+							selected={endDate}
+							calendarContainer={Calendar}
+							onChange={(date) => setEndDate(date)}
+							dateFormat="dd-MM-yyyy"
+						/>
+					</>
+				)
+			}
 
 			<CustomButton type="update" text="GENERISI" onClick={() => handleSubmit()}/>
 		</Flex>
@@ -171,6 +223,13 @@ const ReportPage = () => {
 						return <AccountDetail response={ele} /> 
 					})}
 				</Flex>
+				: classes ? 
+				<Flex direction="column" gridGap="50px" h={"100%"} mt="70px"> 
+					<Heading alignSelf="center">{`Bilans stanja`}</Heading>
+					{classes.map((ele, i) => {
+						return <ClassComp contoClass={ele} /> 
+					})}
+					</Flex>
 				: null
 			}
 		</Flex>
