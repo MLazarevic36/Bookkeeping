@@ -9,13 +9,14 @@ import AccountDetail from "../components/reports/AccountDetail";
 import AnalyticCardReport from "../components/reports/AnalyticCardReport";
 import ClassComp from "../components/reports/ClassComp";
 import SelectDropdown from "../components/SelectDropdown";
+import ContoPlanTable from "../components/tables/ContoPlanTable";
 import useAccount from "../redux/hooks/useAccount";
 import useCompany from "../redux/hooks/useCompany";
 import useConto from "../redux/hooks/useConto";
 import useReport from "../redux/hooks/useReport";
 import useUser from "../redux/hooks/useUser";
 import { dateFormatter, makeSelectOptionsConto, priceFormatter } from "../utils/functions";
-import { reportAnalyticCard, reportCreditAccount, reportGrossBalanceSheet, reportOptions } from "../utils/strings";
+import { defaultSize, reportAnalyticCard, reportContoPlan, reportCreditAccount, reportGrossBalanceSheet, reportOptions } from "../utils/strings";
 
 const ReportPage = () => {
 
@@ -38,6 +39,8 @@ const ReportPage = () => {
 	const [startDate, setStartDate] = useState(null)
 	const [endDate, setEndDate] = useState(null)
 	const [classes, setClasses] = useState(null)
+	const [contoPlan, setContoPlan] = useState(null)
+	const [pagination, setPagination] = useState(null)
 
 	useEffect(() => {
 		// hookAccount.fetchDropdown(hookUser.employee.company)
@@ -87,6 +90,8 @@ const ReportPage = () => {
 				if(res !== undefined && res.status === 200) {
 					setDetailAccount(null)
 					setClasses(null)
+					setContoPlan(null)
+					setPagination(null)
 					setAnalyticCardResponse(res.data)
 				}
 			})
@@ -95,6 +100,8 @@ const ReportPage = () => {
 				if(res !== undefined && res.status === 200) {
 					setAnalyticCardResponse(null)
 					setClasses(null)
+					setContoPlan(null)
+					setPagination(null)
 					setAccounts(res.data)
 				}
 			})
@@ -109,7 +116,25 @@ const ReportPage = () => {
 				if(res !== undefined && res.status === 200) {
 					setDetailAccount(null)
 					setAnalyticCardResponse(null)
+					setContoPlan(null)
+					setPagination(null)
 					setClasses(res.data.classes)
+				}
+			})
+		}else if(selectedReport === reportContoPlan) {
+			hookConto.fetchPage(0, defaultSize, selectedCompany).then((res) => {
+				if(res !== undefined && res.status === 200) {
+					setDetailAccount(null)
+					setAnalyticCardResponse(null)
+					setClasses(null)
+					setContoPlan(res.data.content)
+					const pagination = {
+						page: res.data.page,
+						size: res.data.size,
+						totalElements: res.data.totalElements,
+						totalPages: res.data.totalPages,
+					}
+					setPagination(pagination)
 				}
 			})
 		}
@@ -153,71 +178,56 @@ const ReportPage = () => {
 
 	return (
 		<Layout>
-			{console.log(selectedReport)}
-		<Flex
-			direction={["column", "column", "column", "row"]}
-			w="80%"
-			m="auto"
-			gridGap="30px"
-			justify="flex-start"
-			alignItems={["center", "center", "center", "flex-end"]}
-			mt="40px"
-			ml="50px"
-		>
-			<Box w="370px">
-				<FormLabel color="mc_medium" mb="10px">
-					{"IZVEŠTAJ"}
-				</FormLabel>
-				<SelectDropdown
-					options={reportOptions}
-					onChange={(val) => handleReport(val.value)}
-				/>
-			</Box>
-			{
-				selectedReport === reportAnalyticCard && (
-				<>
-					<Box w="300px">
-						<FormLabel color="mc_medium" mb="10px">
-							{"PREDUZEĆE"}
-						</FormLabel>
-						<SelectDropdown
-							options={companyOptions}
-							onChange={(val) => handleCompany(val.value)}
-						/>
-					</Box>
-					{
-						selectedCompany && 
-						<Box w="600px">
-							<FormLabel color="mc_medium" mb="10px">
-								{"KONTO"}
-							</FormLabel>
-							<SelectDropdown
-								options={contoOptions}
-								onChange={(val) => setSelectedConto(val.value)}
-							/>
-						</Box>
-						
-					}
-	
-				</>
-				)
-			}
-			{
-				selectedReport === reportCreditAccount && (
-				<Box w="300px">
+			<Flex
+				direction={["column", "column", "column", "row"]}
+				w="80%"
+				m="auto"
+				gridGap="30px"
+				justify="flex-start"
+				alignItems={["center", "center", "center", "flex-end"]}
+				mt="40px"
+				ml="50px"
+			>
+				<Box w="370px">
 					<FormLabel color="mc_medium" mb="10px">
-						{"PREDUZEĆE"}
+						{"IZVEŠTAJ"}
 					</FormLabel>
 					<SelectDropdown
-						options={companyOptions}
-						onChange={(val) => handleCompany(val.value)}
+						options={reportOptions}
+						onChange={(val) => handleReport(val.value)}
 					/>
 				</Box>
-				)
-			}
-			{
-				selectedReport === reportGrossBalanceSheet && (
+				{
+					selectedReport === reportAnalyticCard && (
 					<>
+						<Box w="300px">
+							<FormLabel color="mc_medium" mb="10px">
+								{"PREDUZEĆE"}
+							</FormLabel>
+							<SelectDropdown
+								options={companyOptions}
+								onChange={(val) => handleCompany(val.value)}
+							/>
+						</Box>
+						{
+							selectedCompany && 
+							<Box w="600px">
+								<FormLabel color="mc_medium" mb="10px">
+									{"KONTO"}
+								</FormLabel>
+								<SelectDropdown
+									options={contoOptions}
+									onChange={(val) => setSelectedConto(val.value)}
+								/>
+							</Box>
+							
+						}
+		
+					</>
+					)
+				}
+				{
+					selectedReport === reportCreditAccount && (
 					<Box w="300px">
 						<FormLabel color="mc_medium" mb="10px">
 							{"PREDUZEĆE"}
@@ -227,64 +237,98 @@ const ReportPage = () => {
 							onChange={(val) => handleCompany(val.value)}
 						/>
 					</Box>
-					<DatePickerWrapper
-						minW="200px"
-						label={"Od"}
-						selected={startDate}
-						calendarContainer={Calendar}
-						onChange={(date) => setStartDate(date)}
-						dateFormat="dd-MM-yyyy"
-					/>
-					<DatePickerWrapper
+					)
+				}
+				{
+					selectedReport === reportGrossBalanceSheet && (
+						<>
+						<Box w="300px">
+							<FormLabel color="mc_medium" mb="10px">
+								{"PREDUZEĆE"}
+							</FormLabel>
+							<SelectDropdown
+								options={companyOptions}
+								onChange={(val) => handleCompany(val.value)}
+							/>
+						</Box>
+						<DatePickerWrapper
 							minW="200px"
-							label={"Do"}
-							selected={endDate}
+							label={"Od"}
+							selected={startDate}
 							calendarContainer={Calendar}
-							onChange={(date) => setEndDate(date)}
+							onChange={(date) => setStartDate(date)}
 							dateFormat="dd-MM-yyyy"
 						/>
-					</>
-				)
-			}
-
-			<CustomButton type="update" text="GENERISI" onClick={() => handleSubmit()}/>
-		</Flex>
-		<Flex justify="center" align="center" h="370px">
-			{
-				analyticCardResponse ? 
-					<AnalyticCardReport response={analyticCardResponse} /> :
-				accounts ?
-				<Flex direction="column" gridGap="150px" h={"100%"} mt="50px"> 
-					{accounts.length > 0 ? accounts.map((ele, i) => {
-						return <AccountDetail response={ele} /> 
-					}) 
-					:
-					<Heading>Nema dovoljno podataka</Heading>
+						<DatePickerWrapper
+								minW="200px"
+								label={"Do"}
+								selected={endDate}
+								calendarContainer={Calendar}
+								onChange={(date) => setEndDate(date)}
+								dateFormat="dd-MM-yyyy"
+							/>
+						</>
+					)
 				}
-				</Flex>
-				: classes ? 
-				<Flex direction="column" gridGap="50px" h={"100%"} mt="70px"> 
-					<Flex direction="column">
-						<Heading alignSelf="center">{`Bilans stanja preduzeća ${hookCompany.dropdown.find(ele => ele.id === selectedCompany).name}`}</Heading>
-						<Heading alignSelf="center">{`za period od: ${dateFormatter(startDate)} do: ${dateFormatter(endDate)}`}</Heading>
-					</Flex>
-					{classes.map((ele, i) => {
-						if(ele.analyticCards && ele.analyticCards.length > 0) {
-							return <ClassComp contoClass={ele} /> 
-						}
-					})}
-					<Flex gridGap="240px" ml="450px">
-						<FormLabel ml={totalTotal().totalOwes === 0 && "15px"}>{priceFormatter(totalTotal().totalOwes)}</FormLabel>
-						<FormLabel ml={totalTotal().totalRequires === 0 && "35px"}>{priceFormatter(totalTotal().totalRequires)} </FormLabel>
-						<FormLabel ml={totalTotal().totalSaldoOwes === 0 && "35px"}>{priceFormatter(totalTotal().totalSaldoOwes)}</FormLabel>
-						<FormLabel ml={totalTotal().totalSaldoRequires === 0 && "35px"}>{priceFormatter(totalTotal().totalSaldoRequires)}</FormLabel>
-					</Flex>
-				</Flex>
-				: null
-			}
-		</Flex>
 
-	</Layout>
+				{
+					selectedReport === reportContoPlan && (
+						<Box w="300px">
+							<FormLabel color="mc_medium" mb="10px">
+								{"PREDUZEĆE"}
+							</FormLabel>
+							<SelectDropdown
+								options={companyOptions}
+								onChange={(val) => handleCompany(val.value)}
+							/>
+						</Box>
+	
+					)
+				}
+
+				<CustomButton type="update" text="GENERIŠI" onClick={() => handleSubmit()}/>
+			</Flex>
+			<Flex justify="center" align="center" h="370px">
+				{
+					analyticCardResponse ? 
+						<AnalyticCardReport response={analyticCardResponse} /> :
+					accounts ?
+					<Flex direction="column" gridGap="150px" h={"100%"} mt="50px"> 
+						{accounts.length > 0 ? accounts.map((ele, i) => {
+							return <AccountDetail response={ele} /> 
+						}) 
+						:
+						<Heading>Nema dovoljno podataka</Heading>
+					}
+					</Flex>
+					: classes ? 
+					<Flex direction="column" gridGap="50px" h={"100%"} mt="70px"> 
+						<Flex direction="column">
+							<Heading alignSelf="center">{`Bilans stanja preduzeća ${hookCompany.dropdown.find(ele => ele.id === selectedCompany).name}`}</Heading>
+							<Heading alignSelf="center">{`za period od: ${dateFormatter(startDate)} do: ${dateFormatter(endDate)}`}</Heading>
+						</Flex>
+						{classes.map((ele, i) => {
+							if(ele.analyticCards && ele.analyticCards.length > 0) {
+								return <ClassComp contoClass={ele} /> 
+							}
+						})}
+						<Flex gridGap="240px" ml="450px">
+							<FormLabel ml={totalTotal().totalOwes === 0 && "15px"}>{priceFormatter(totalTotal().totalOwes)}</FormLabel>
+							<FormLabel ml={totalTotal().totalRequires === 0 && "35px"}>{priceFormatter(totalTotal().totalRequires)} </FormLabel>
+							<FormLabel ml={totalTotal().totalSaldoOwes === 0 && "35px"}>{priceFormatter(totalTotal().totalSaldoOwes)}</FormLabel>
+							<FormLabel ml={totalTotal().totalSaldoRequires === 0 && "35px"}>{priceFormatter(totalTotal().totalSaldoRequires)}</FormLabel>
+						</Flex>
+					</Flex>
+					: contoPlan && pagination  ?
+					<Flex direction="column" gridGap="50px" h={"100%"} mt="70px">
+						<Heading alignSelf="center">{`Kontni plan preduzeća ${hookCompany.dropdown.find(ele => ele.id === selectedCompany).name}`}</Heading>
+						<ContoPlanTable data={contoPlan} pagination={pagination} report={false} />
+					</Flex>
+					: null
+				}
+			</Flex>
+
+		</Layout>
 	)
 }
 

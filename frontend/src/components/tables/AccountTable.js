@@ -111,8 +111,6 @@ const AccountTable = ({data, pagination, selectData}) => {
 			accountItems.push(item)
 		})
 
-		console.log(defaultCompanyDivision, "deffffffffff")
-
 		hookForms.setItems(accountItems)
 
         setUpdateData(defaultValues)
@@ -236,15 +234,15 @@ const AccountTable = ({data, pagination, selectData}) => {
 					bootstrap4
 				/>
 			</TablesStyles>
-			{data.length >= 10 &&
-				<Box>
-					<Pagination
-						paginationData={pagination}
-						// fetchPage={fetchPage}
-						// setSize={setSize}
-					/>
-				</Box>
-			} 
+		
+			<Box>
+				<Pagination
+					paginationData={pagination}
+					fetchPage={hook.fetchPage}
+					company={hookUser.employee.company}
+				/>
+			</Box>
+			
 			<CustomModal isOpen={isOpen} onClose={onClose} size={"full"} overlayClick={false}>
 				<AccountForm 
 					submit={submit} 

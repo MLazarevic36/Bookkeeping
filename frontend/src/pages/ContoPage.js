@@ -103,6 +103,7 @@ const ContoPlanPage = () => {
 				data={contos} 
 				pagination={pagination} 
 				selectData={selectData}
+				report={true}
 			/>
 			<CustomModal isOpen={isOpen} onClose={onClose} size={"lg"} overlayClick={false}>
 				<ContoForm 

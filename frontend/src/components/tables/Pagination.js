@@ -3,12 +3,13 @@ import styled from "styled-components"
 import ReactPaginate from "react-paginate"
 import { Box } from "@chakra-ui/layout"
 import { LeftArrow, RightArrow } from "../Icons"
+import { defaultSize } from "../../utils/strings"
 
-const Pagination = ({ paginationData, fetchPage }) => {
+const Pagination = ({ paginationData, fetchPage, company }) => {
     
-	// const handlePageChange = (item) => {
-    //     fetchPage(paginationData.pageSize, item.selected + 1)
-    // }
+	const handlePageChange = (item) => {
+        fetchPage(item.selected, defaultSize, company)
+    }
 
     return (
         <PaginationStyle>
@@ -17,8 +18,8 @@ const Pagination = ({ paginationData, fetchPage }) => {
                     previousLabel={<LeftArrow />}
                     nextLabel={<RightArrow />}
                     breakLabel={"..."}
-                    pageCount={paginationData.totalPages}
-                    // onPageChange={handlePageChange}
+                    pageCount={paginationData && paginationData.totalPages}
+                    onPageChange={handlePageChange}
                     containerClassName={"pagination-container"}
                     activeClassName={"activePag"}
                 />

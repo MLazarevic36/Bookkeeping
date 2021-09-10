@@ -32,6 +32,7 @@ const AccountPage = () => {
 	const [divisions, setDivisions] = useState([])
 	const [contos, setContos] = useState([])
 	const [accounts, setAccounts] = useState([])
+	const [pagination, setPagination] = useState(null)
 
 	useEffect(() => {
 		hookCompany.fetchP(hookUser.employee.company)
@@ -65,7 +66,11 @@ const AccountPage = () => {
 		if(hook.accounts.length > 0) {
 			setAccounts(hook.accounts)
 		}
-	}, [hook.accounts])
+
+		if(hook.pagination) {
+			setPagination(hook.pagination)
+		}
+	}, [hook.accounts, hook.pagination])
 
 	const selectData = {
 		companies: partners,
@@ -75,7 +80,6 @@ const AccountPage = () => {
 	}
 
 	const handleSubmit = (data) => {
-		// console.log(data)
 
 		const accountItems = []
 
@@ -134,7 +138,7 @@ const AccountPage = () => {
 					<FormLabel paddingTop="10px">Dodaj novi nalog:</FormLabel>
 					<CustomButton type="add" onClick={onOpen} />
 			</Flex>
-			<AccountTable data={accounts} selectData={selectData}/>
+			<AccountTable data={accounts} selectData={selectData} pagination={pagination}/>
 			<CustomModal isOpen={isOpen} onClose={onClose} size={"full"} overlayClick={false}>
 				<AccountForm 
 					selectData={selectData}

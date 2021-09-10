@@ -15,7 +15,7 @@ const UserNavbar = ({ children }) => {
 						<Link
 							to="/reports"
 							className="nav-buttons"
-							title="Izvestaji"
+							title="Izveštaji"
 							>
 							<p className="nav-title">Izvestaji</p>
 						</Link> :
@@ -46,7 +46,7 @@ const UserNavbar = ({ children }) => {
                 </div>
                 <div className="nav-right">
 					<div className="nav-buttons" title="Logout">
-                        <button className="nav-title" onClick={() => hook.signout()}>Logout</button>
+                        <button className="nav-title" onClick={() => hook.signout()}>Odjavi se</button>
                     </div>
                 </div>
             </nav>

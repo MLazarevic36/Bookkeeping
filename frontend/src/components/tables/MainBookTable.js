@@ -99,16 +99,14 @@ const MainBookTable = ({data, pagination, totals}) => {
 				</Flex>
 			}
 	
-
-			{data.length >= defaultSize &&
-				<Box>
-					<Pagination
-						paginationData={pagination}
-						// fetchPage={fetchPage}
-						// setSize={setSize}
-					/>
-				</Box>
-			} 
+			<Box>
+				<Pagination
+					paginationData={pagination}
+					fetchPage={hook.fetchPage}
+					company={hookUser.employee.company}
+				/>
+			</Box>
+		
 			<CustomModal isOpen={isOpen} onClose={onClose} size={"6x1"} overlayClick={true}>
 				<FinancialChangeTable data={financialChanges}/>
 			</CustomModal>

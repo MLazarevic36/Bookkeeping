@@ -15,7 +15,7 @@ const HomePage = () => {
 		hookCompany.fetchC()
 	}, [])  //eslint-disable-line
 	
-	const company = hookCompany.dropdown.find((ele) => ele.id === hook.employee.company)
+	const company = hook.employee && hookCompany.dropdown.find((ele) => ele.id === hook.employee.company)
 
 	return( 
 		<Layout>

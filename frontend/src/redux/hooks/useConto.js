@@ -12,7 +12,7 @@ export default function useConto() {
 	const dropdown = useSelector((state) => state.conto.dropdown)
 
 	const fetchPage = async (pageNumber, pageSize, companyId) => {
-		dispatch(fetchContosPage(pageNumber, pageSize, companyId));
+		return dispatch(fetchContosPage(pageNumber, pageSize, companyId));
 	}
 
 	const fetchDropdown = async (companyId) => {

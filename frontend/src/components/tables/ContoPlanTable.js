@@ -11,7 +11,7 @@ import { defaultSize, statusActive, statusOptions, typeContoOptions, typeSynthet
 import useConto from "../../redux/hooks/useConto"
 import useUser from "../../redux/hooks/useUser"
 
-const ContoPlanTable = ({data, pagination, selectData}) => {
+const ContoPlanTable = ({data, pagination, selectData, report}) => {
 
 	const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -122,20 +122,21 @@ const ContoPlanTable = ({data, pagination, selectData}) => {
 					columns={columns}
 					keyField="id"
 					classes="TablesStyles"
-					expandRow={expandRow}
+					expandRow={report && expandRow}
 					bordered
 					bootstrap4
 				/>
 			</TablesStyles>
-			{data.length >= 10 &&
+		
 				<Box>
 					<Pagination
 						paginationData={pagination}
-						// fetchPage={fetchPage}
+						fetchPage={hook.fetchPage}
+						company={hookUser.employee.company}
 						// setSize={setSize}
 					/>
 				</Box>
-			} 
+		
 			<CustomModal isOpen={isOpen} onClose={onClose} size={"lg"} overlayClick={false}>
 				<ContoForm 
 					submit={submit} 

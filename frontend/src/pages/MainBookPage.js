@@ -15,6 +15,7 @@ const MainBookPage = () => {
 
 	const [analyticCards, setAnalyticCards] = useState([])
 	const [totals, setTotals] = useState(null)
+	const [pagination, setPagination] = useState(null)
 
 	useEffect(() => {
 		hook.fetchPage(0, defaultSize, hookUser.employee.company)
@@ -63,16 +64,16 @@ const MainBookPage = () => {
 			setTotals(totals)
 			setAnalyticCards(newData)
 		}
-	}, [hook.analyticCards])
+
+		if(hook.pagination) {
+			setPagination(hook.pagination)
+		}
+	}, [hook.analyticCards, hook.pagination])
 	
 
 	return (
 		<Layout>
-			
-			<MainBookTable data={analyticCards} totals={totals}/>
-			{/* <CustomModal isOpen={isOpen} onClose={onClose} size={"full"} overlayClick={false}>
-
-			</CustomModal> */}
+			<MainBookTable data={analyticCards} totals={totals} pagination={pagination}/>
 		</Layout>
 	)
 };
